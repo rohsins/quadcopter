@@ -1,0 +1,21 @@
+--cpu Cortex-M3
+".\objects\main.o"
+".\objects\itm_arm.o"
+".\objects\ringbuffer.o"
+"C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0-Beta4\CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib"
+".\objects\rtx_conf_cm.o"
+".\objects\emac_lpc17xx.o"
+".\objects\phy_lan8720.o"
+".\objects\retarget_io.o"
+".\objects\gpdma_lpc17xx.o"
+".\objects\gpio_lpc17xx.o"
+".\objects\pin_lpc17xx.o"
+".\objects\startup_lpc17xx.o"
+".\objects\system_lpc17xx.o"
+"C:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.1.0\Network\Lib\ARM\Net_Dbg_CM3_L.lib"
+".\objects\net_config.o"
+".\objects\net_debug.o"
+--library_type=microlib --strict --scatter ".\Objects\LPC1768_new.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\LPC1768_new.map" -o .\Objects\LPC1768_new.axf

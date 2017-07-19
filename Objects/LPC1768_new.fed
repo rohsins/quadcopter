@@ -1,0 +1,259 @@
+;#<FEEDBACK># ARM Linker, 5060183: Last Updated: Thu Jun 23 13:44:57 2016
+;VERSION 0.2
+;FILE emac_lpc17xx.o
+__asm___14_EMAC_LPC17xx_c_f63b8310____REV16 <= USED 0
+__asm___14_EMAC_LPC17xx_c_f63b8310____REVSH <= USED 0
+__asm___14_EMAC_LPC17xx_c_f63b8310____RRX <= USED 0
+;FILE gpdma_lpc17xx.o
+GPDMA_ChannelConfigure <= USED 0
+GPDMA_ChannelDisable <= USED 0
+GPDMA_ChannelEnable <= USED 0
+GPDMA_ChannelGetCount <= USED 0
+GPDMA_ChannelGetStatus <= USED 0
+GPDMA_Initialize <= USED 0
+GPDMA_PeripheralSelect <= USED 0
+GPDMA_Uninitialize <= USED 0
+__asm___15_GPDMA_LPC17xx_c_274b7f8e____REV16 <= USED 0
+__asm___15_GPDMA_LPC17xx_c_274b7f8e____REVSH <= USED 0
+__asm___15_GPDMA_LPC17xx_c_274b7f8e____RRX <= USED 0
+;FILE gpio_lpc17xx.o
+GPIO_PinRead <= USED 0
+GPIO_PortClock <= USED 0
+GPIO_PortWrite <= USED 0
+__asm___14_GPIO_LPC17xx_c_7565b535____REV16 <= USED 0
+__asm___14_GPIO_LPC17xx_c_7565b535____REVSH <= USED 0
+__asm___14_GPIO_LPC17xx_c_7565b535____RRX <= USED 0
+;FILE hal_cm.o
+;FILE hal_cm3.o
+OS_Tick_Handler <= USED 0
+_alloc_box <= USED 0
+_free_box <= USED 0
+os_set_env <= USED 0
+rt_set_PSP <= USED 0
+;FILE itm_arm.o
+_Z10itmPrintlnPc <= USED 0
+_Z11itmPrintInti <= USED 0
+_Z13itmPrintlnInti <= USED 0
+_Z8itmPrintPc <= USED 0
+;FILE main.o
+_Z14ethernetConfigv <= USED 0
+_Z26ethernet_check_link_statusv <= USED 0
+__asm___8_Main_cpp_6277ca0f___Z5__RRXj <= USED 0
+__asm___8_Main_cpp_6277ca0f___Z7__REV16j <= USED 0
+__asm___8_Main_cpp_6277ca0f___Z7__REVSHi <= USED 0
+;FILE net_addr.o
+netIP_aton <= USED 0
+netIP_ntoa <= USED 0
+netMAC_ntoa <= USED 0
+net_addr_comp <= USED 0
+net_addr_copy <= USED 0
+net_addr_get_lhost <= USED 0
+net_addr_ntoa <= USED 0
+;FILE net_arp.o
+netARP_CacheIP <= USED 0
+netARP_CacheMAC <= USED 0
+netARP_GetIP <= USED 0
+netARP_GetMAC <= USED 0
+netARP_Probe <= USED 0
+net_arp_find_mac <= USED 0
+net_arp_probe <= USED 0
+;FILE net_bsd.o
+accept <= USED 0
+bind <= USED 0
+closesocket <= USED 0
+connect <= USED 0
+getpeername <= USED 0
+getsockname <= USED 0
+ioctlsocket <= USED 0
+listen <= USED 0
+net_bsd_suspend <= USED 0
+recv <= USED 0
+recvfrom <= USED 0
+send <= USED 0
+sendto <= USED 0
+setsockopt <= USED 0
+socket <= USED 0
+;FILE net_common.o
+net_b64_decode <= USED 0
+net_b64_encode_buf <= USED 0
+net_b64_encode_str <= USED 0
+net_strcasecmp <= USED 0
+net_strchr <= USED 0
+net_strcmp <= USED 0
+net_strcrc <= USED 0
+;FILE net_config.o
+netDHCP_Disable <= USED 0
+netDHCP_Enable <= USED 0
+netSNTPc_GetTime <= USED 0
+net_ppp_get_option <= USED 0
+net_ppp_set_option <= USED 0
+net_slip_get_option <= USED 0
+net_slip_set_option <= USED 0
+;FILE net_debug.o
+;FILE net_eth.o
+net_eth_get_addr <= USED 0
+net_eth_get_option <= USED 0
+net_eth_set_option <= USED 0
+;FILE net_icmp.o
+;FILE net_icmp6.o
+;FILE net_ip4.o
+;FILE net_ip6.o
+;FILE net_loop.o
+;FILE net_mem.o
+net_mem_shrink <= USED 0
+;FILE net_nbns_client.o
+;FILE net_ndp.o
+netNDP_CacheIP <= USED 0
+netNDP_GetIP <= USED 0
+netNDP_GetMAC <= USED 0
+netNDP_Probe <= USED 0
+net_ndp_cache_mac <= USED 0
+net_ndp_find_mac <= USED 0
+;FILE net_ping.o
+netPing_Echo <= USED 0
+;FILE net_sys.o
+netIF_GetOption <= USED 0
+netIF_SetOption <= USED 0
+netSYS_GetHostName <= USED 0
+netSYS_SetHostName <= USED 0
+net_dbg_proc <= USED 0
+net_dbg_time <= USED 0
+net_path <= USED 0
+;FILE net_tcp.o
+netTCP_Abort <= USED 0
+netTCP_Close <= USED 0
+netTCP_Connect <= USED 0
+netTCP_GetBuffer <= USED 0
+netTCP_GetLocalPort <= USED 0
+netTCP_GetMaxSegmentSize <= USED 0
+netTCP_GetPeer <= USED 0
+netTCP_GetState <= USED 0
+netTCP_GetTimer <= USED 0
+netTCP_ReleaseSocket <= USED 0
+netTCP_ResetReceiveWindow <= USED 0
+netTCP_Send <= USED 0
+netTCP_SendReady <= USED 0
+net_tcp_abort <= USED 0
+net_tcp_alloc_port <= USED 0
+net_tcp_check_send <= USED 0
+net_tcp_close <= USED 0
+net_tcp_connect <= USED 0
+net_tcp_ctrl_opt <= USED 0
+net_tcp_get_buf <= USED 0
+net_tcp_get_local_port <= USED 0
+net_tcp_get_mss <= USED 0
+net_tcp_get_peer <= USED 0
+net_tcp_get_timer <= USED 0
+net_tcp_ntoa <= USED 0
+net_tcp_release_socket <= USED 0
+net_tcp_reset_tout <= USED 0
+net_tcp_reset_window <= USED 0
+net_tcp_send <= USED 0
+;FILE net_udp.o
+netUDP_Close <= USED 0
+netUDP_GetBuffer <= USED 0
+netUDP_GetLocalPort <= USED 0
+netUDP_GetSocket <= USED 0
+netUDP_Open <= USED 0
+netUDP_ReleaseSocket <= USED 0
+netUDP_Send <= USED 0
+netUDP_SetOption <= USED 0
+net_udp_close <= USED 0
+net_udp_free_buf <= USED 0
+net_udp_get_local_port <= USED 0
+net_udp_keep_buf <= USED 0
+net_udp_release_socket <= USED 0
+net_udp_set_option <= USED 0
+;FILE pin_lpc17xx.o
+PIN_ConfigureI2C0Pins <= USED 0
+PIN_ConfigureTPIU <= USED 0
+__asm___13_PIN_LPC17xx_c_ccddbb0a____REV16 <= USED 0
+__asm___13_PIN_LPC17xx_c_ccddbb0a____REVSH <= USED 0
+__asm___13_PIN_LPC17xx_c_ccddbb0a____RRX <= USED 0
+;FILE retarget_io.o
+ITM_ReceiveChar <= USED 0
+ITM_SendChar <= USED 0
+__aeabi_assert <= USED 0
+__backspace <= USED 0
+abort <= USED 0
+fgetc <= USED 0
+fputc <= USED 0
+;FILE ringbuffer.o
+_ZN10RingBuffer14ringBufferReadEPc <= USED 0
+_ZN10RingBuffer15ringBufferWriteEc <= USED 0
+_ZN10RingBuffer20ringBufferStringReadEPc <= USED 0
+_ZN10RingBuffer21ringBufferStringWriteEPc <= USED 0
+;FILE rt_cmsis.o
+__asm___10_rt_CMSIS_c_8216d75d____REV16 <= USED 0
+__asm___10_rt_CMSIS_c_8216d75d____REVSH <= USED 0
+__asm___10_rt_CMSIS_c_8216d75d____RRX <= USED 0
+osKernelRunning <= USED 0
+osMailAlloc <= USED 0
+osMailCAlloc <= USED 0
+osMailCreate <= USED 0
+osMailFree <= USED 0
+osMailGet <= USED 0
+osMailPut <= USED 0
+osMessageCreate <= USED 0
+osMessagePut <= USED 0
+osMutexDelete <= USED 0
+osPoolAlloc <= USED 0
+osPoolCAlloc <= USED 0
+osPoolCreate <= USED 0
+osPoolFree <= USED 0
+osSemaphoreDelete <= USED 0
+osThreadGetId <= USED 0
+osThreadGetPriority <= USED 0
+osThreadSetPriority <= USED 0
+osThreadTerminate <= USED 0
+osTimerDelete <= USED 0
+osTimerStop <= USED 0
+osWait <= USED 0
+os_resume <= USED 0
+os_suspend <= USED 0
+svcKernelRunning <= USED 0
+svcMailCreate <= USED 0
+svcMessagePut <= USED 0
+svcMutexDelete <= USED 0
+svcPoolCreate <= USED 0
+svcSemaphoreDelete <= USED 0
+svcThreadGetPriority <= USED 0
+svcThreadSetPriority <= USED 0
+svcTimerDelete <= USED 0
+svcTimerStop <= USED 0
+sysMailAlloc <= USED 0
+sysMailFree <= USED 0
+sysPoolAlloc <= USED 0
+sysPoolFree <= USED 0
+sysUserTimerUpdate <= USED 0
+sysUserTimerWakeupTime <= USED 0
+;FILE rt_event.o
+rt_evt_get <= USED 0
+;FILE rt_list.o
+;FILE rt_mailbox.o
+rt_mbx_send <= USED 0
+;FILE rt_membox.o
+_calloc_box <= USED 0
+;FILE rt_memory.o
+;FILE rt_mutex.o
+rt_mut_delete <= USED 0
+;FILE rt_robin.o
+;FILE rt_semaphore.o
+rt_sem_delete <= USED 0
+;FILE rt_system.o
+os_tick_irqack <= USED 0
+rt_resume <= USED 0
+rt_suspend <= USED 0
+rt_tsk_lock <= USED 0
+rt_tsk_unlock <= USED 0
+;FILE rt_task.o
+;FILE rt_time.o
+rt_itv_set <= USED 0
+rt_itv_wait <= USED 0
+rt_time_get <= USED 0
+;FILE rtx_conf_cm.o
+;FILE startup_lpc17xx.o
+;FILE system_lpc17xx.o
+__asm___16_system_LPC17xx_c_5d646a67____REV16 <= USED 0
+__asm___16_system_LPC17xx_c_5d646a67____REVSH <= USED 0
+__asm___16_system_LPC17xx_c_5d646a67____RRX <= USED 0
