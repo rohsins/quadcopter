@@ -100,7 +100,7 @@ void ledInitialize(void) {
 void configPWM(void) {
 	LPC_PINCON->PINSEL4 = (1<<0) | (1<<2) | (1<<4) | (1<<6) | (1<<8); //PWM ON PIN 0, 1, 2, 3, 4
 	LPC_PWM1->TCR = (1<<0) | (1<<2);
-	LPC_PWM1->PR = 0x0;
+	LPC_PWM1->PR = 0x10;
 	LPC_PWM1->MCR = (1<<1);
 	
 	LPC_PWM1->MR0 = 100; //set period to 100%

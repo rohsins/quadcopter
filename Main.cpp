@@ -102,16 +102,16 @@ void ledInitialize(void) {
 void configPWM(void) {
 	LPC_PINCON->PINSEL4 = (1<<0) | (1<<2) | (1<<4) | (1<<6) | (1<<8); //PWM ON PIN 0, 1, 2, 3, 4
 	LPC_PWM1->TCR = (1<<0) | (1<<2);
-	LPC_PWM1->PR = 0x0;
+	LPC_PWM1->PR = 0xFC;
 	LPC_PWM1->MCR = (1<<1);
 	
-	LPC_PWM1->MR0 = 100; //set period to 100%
+	LPC_PWM1->MR0 = 1000; //set period to 100%
 	
-	DutyCycle0 = 80;
-	DutyCycle1 = 80;
-	DutyCycle2 = 80;
-	DutyCycle3 = 80;
-	DutyCycle4 = 80;
+	DutyCycle0 = 600;
+	DutyCycle1 = 600;
+	DutyCycle2 = 600;
+	DutyCycle3 = 600;
+	DutyCycle4 = 600;
 	
 	LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 	
@@ -123,28 +123,28 @@ void pwmRunner(void const * params) {
 	
 	configPWM();
 	
-	while(1)
-    {
-        for(dutyCycle=1; dutyCycle<40; dutyCycle++)
-        {
-            DutyCycle0 = dutyCycle;
-            DutyCycle1 = dutyCycle;
-            DutyCycle2 = dutyCycle;
-            DutyCycle3 = dutyCycle;
-						DutyCycle4 = dutyCycle;
-            osDelay(5);
-        }
+//	while(1)
+//    {
+//        for(dutyCycle=1; dutyCycle<40; dutyCycle++)
+//        {
+//            DutyCycle0 = dutyCycle;
+//            DutyCycle1 = dutyCycle;
+//            DutyCycle2 = dutyCycle;
+//            DutyCycle3 = dutyCycle;
+//						DutyCycle4 = dutyCycle;
+//            osDelay(5);
+//        }
 
-        for(dutyCycle=39; dutyCycle>0; dutyCycle--)
-        {
-            DutyCycle0 = dutyCycle;
-            DutyCycle1 = dutyCycle;
-            DutyCycle2 = dutyCycle;
-            DutyCycle3 = dutyCycle;
-						DutyCycle4 = dutyCycle;
-            osDelay(5);
-        }
-    }
+//        for(dutyCycle=39; dutyCycle>0; dutyCycle--)
+//        {
+//            DutyCycle0 = dutyCycle;
+//            DutyCycle1 = dutyCycle;
+//            DutyCycle2 = dutyCycle;
+//            DutyCycle3 = dutyCycle;
+//						DutyCycle4 = dutyCycle;
+//            osDelay(5);
+//        }
+//    }
 }
 osThreadDef(pwmRunner, osPriorityNormal, 1, 0);
 	
