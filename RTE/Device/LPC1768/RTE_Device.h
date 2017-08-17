@@ -251,7 +251,7 @@
 
 // <e> I2C1 (Inter-integrated Circuit Interface 1) [Driver_I2C1]
 // <i> Configuration settings for Driver_I2C1 in component ::Drivers:I2C
-#define RTE_I2C1                        0
+#define RTE_I2C1                        1
 
 //   <o> I2C1_SCL Pin <0=>P0_1 <1=>P0_20
 #define RTE_I2C1_SCL_PORT_ID            0
@@ -315,7 +315,7 @@
 
 //   <o> UART0_TX Pin <0=>Not used <1=>P0_2
 //   <i> UART0 Serial Output pin
-#define RTE_UART0_TX_ID                 0
+#define RTE_UART0_TX_ID                 1
 #if    (RTE_UART0_TX_ID == 0)
 #define RTE_UART0_TX_PIN_EN             0
 #elif  (RTE_UART0_TX_ID == 1)
@@ -331,7 +331,7 @@
 
 //   <o> UART0_RX Pin <0=>Not used <1=>P0_3
 //   <i> UART0 Serial Input pin
-#define RTE_UART0_RX_ID                 0
+#define RTE_UART0_RX_ID                 1
 #if    (RTE_UART0_RX_ID == 0)
 #define RTE_UART0_RX_PIN_EN             0
 #elif  (RTE_UART0_RX_ID == 1)
@@ -598,7 +598,7 @@
 
 //   <o> UART3_TX Pin <0=>Not used <1=>P0_0 <2=>P0_25 <3=>P4_28
 //   <i> UART3 Serial Output pin
-#define RTE_UART3_TX_ID                 0
+#define RTE_UART3_TX_ID                 1
 #if    (RTE_UART3_TX_ID == 0)
 #define RTE_UART3_TX_PIN_EN             0
 #elif  (RTE_UART3_TX_ID == 1)
@@ -622,7 +622,7 @@
 
 //   <o> UART3_RX Pin <0=>Not used <1=>P0_1 <2=>P0_26 <3=>P4_29
 //   <i> UART3 Serial Input pin
-#define RTE_UART3_RX_ID                 0
+#define RTE_UART3_RX_ID                 1
 #if    (RTE_UART3_RX_ID == 0)
 #define RTE_UART3_RX_PIN_EN             0
 #elif  (RTE_UART3_RX_ID == 1)

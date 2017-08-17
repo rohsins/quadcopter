@@ -1,9 +1,11 @@
 #include <LPC17xx.h>
-#include <UART_LPC17xx.h>
+#include <cmsis_os2.h>
 extern "C" {
 	#include <GPIO_LPC17xx.h>
 }
-#include <cmsis_os.h>
+#include <UART_LPC17xx.h>
+#include <I2C_LPC17xx.h>
+#include <stdio.h>
 #include "ITM_ARM.h"
 #include <string.h>
 
@@ -17,11 +19,21 @@ extern "C" {
 #define DutyCycle3	LPC_PWM1->MR4
 #define DutyCycle4 LPC_PWM1->MR5
 
+#define BNOADDRESS 0x29
+const uint8_t WHOAMI = 0x01;
+
 extern ARM_DRIVER_USART Driver_USART0;
 extern ARM_DRIVER_USART Driver_USART1;
+extern ARM_DRIVER_I2C Driver_I2C1;
 
 ARM_USART_STATUS Driver_USART1_STATUS;
 USART_TRANSFER_INFO Driver_USART1_INFO;
+
+osSemaphoreId_t semaphoreTransmitId;
+osSemaphoreId_t semaphoreReceiveId;
+
+osSemaphoreAttr_t semaphoreTransmitAttr;
+osSemaphoreAttr_t semaphoreReceiveAttr;
 
 char tempwhat[32];
 
@@ -65,6 +77,14 @@ void USART_callback(uint32_t event)
 	}
 }
 
+void I2C_callback(uint32_t event) {
+	if (Driver_I2C1.GetStatus().direction == 0) {
+		osSemaphoreRelease(semaphoreTransmitId);
+	} else if (Driver_I2C1.GetStatus().direction == 1) {
+		osSemaphoreRelease(semaphoreReceiveId);
+	}
+}
+
 void uart0Initialize(void) {
 	Driver_USART0.Initialize(USART_callback);
 	Driver_USART0.PowerControl(ARM_POWER_FULL);
@@ -89,6 +109,13 @@ void uart1Initialize(void) {
 
 	NVIC_EnableIRQ(UART1_IRQn);
 	LPC_UART1->IER |= IER_RBR | IER_THRE |IER_RLS; //Enable Interrupt
+}
+
+void i2c1Initialize(void) {
+	Driver_I2C1.Initialize(I2C_callback);
+	Driver_I2C1.PowerControl(ARM_POWER_FULL);
+	Driver_I2C1.Control(ARM_I2C_BUS_SPEED, ARM_I2C_BUS_SPEED_STANDARD);
+	Driver_I2C1.Control(ARM_I2C_BUS_CLEAR, 0);
 }
 
 void uart1UnInitialize(void) {
@@ -119,44 +146,25 @@ void configPWM(void) {
 }
 
 void pwmRunner(void const * params) {
-	int dutyCycle = 0;
-	
 	configPWM();
-	
-//	while(1)
-//    {
-//        for(dutyCycle=1; dutyCycle<40; dutyCycle++)
-//        {
-//            DutyCycle0 = dutyCycle;
-//            DutyCycle1 = dutyCycle;
-//            DutyCycle2 = dutyCycle;
-//            DutyCycle3 = dutyCycle;
-//						DutyCycle4 = dutyCycle;
-//            osDelay(5);
-//        }
-
-//        for(dutyCycle=39; dutyCycle>0; dutyCycle--)
-//        {
-//            DutyCycle0 = dutyCycle;
-//            DutyCycle1 = dutyCycle;
-//            DutyCycle2 = dutyCycle;
-//            DutyCycle3 = dutyCycle;
-//						DutyCycle4 = dutyCycle;
-//            osDelay(5);
-//        }
-//    }
 }
-osThreadDef(pwmRunner, osPriorityNormal, 1, 0);
 	
-void heartBeatThread(void const *arg) {
+void heartBeatThread(void *arg) {
 	while (1) {
 		GPIO_PinWrite(2, 7, 0);
-		osDelay(70);
+		osDelay(20);
 		GPIO_PinWrite(2, 7, 1);
-		osDelay(1000);
+		osDelay(2000);
 	}
 }
-osThreadDef(heartBeatThread, osPriorityNormal, 1, 0);
+
+void configI2C(void *params) {
+	uint8_t buf = 0;
+	Driver_I2C1.MasterTransmit (BNOADDRESS, &WHOAMI, 1, false);
+	osSemaphoreAcquire(semaphoreTransmitId, 1000);
+  Driver_I2C1.MasterReceive (BNOADDRESS, &buf, 1, false);
+	osSemaphoreAcquire(semaphoreReceiveId, 1000);
+}
 
 int main(void) {
 	
@@ -165,13 +173,21 @@ int main(void) {
 		
 	osKernelInitialize();
 
-	uart0Initialize();
-	uart1Initialize();
-	osDelay(100);
+//	uart0Initialize();
+//	uart1Initialize();
+//	osDelay(100);
 	ledInitialize();
+	i2c1Initialize();
 	
-	osThreadCreate(osThread(heartBeatThread), NULL);
-	osThreadCreate(osThread(pwmRunner), NULL);
+	semaphoreTransmitAttr.name = "Transmit Semaphore";
+	semaphoreReceiveAttr.name = "Receive Semaphore";
+	
+	semaphoreTransmitId = osSemaphoreNew(1, 0, &semaphoreTransmitAttr);
+	semaphoreReceiveId = osSemaphoreNew(1, 0, &semaphoreReceiveAttr);
+	
+	osThreadNew(heartBeatThread, NULL, NULL);
+	osThreadNew(configI2C, NULL, NULL);
+	
 	osKernelStart();
 	
 	return 0;
