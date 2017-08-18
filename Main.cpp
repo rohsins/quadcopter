@@ -21,6 +21,8 @@ extern "C" {
 
 #define BNOADDRESS 0x29
 const uint8_t WHOAMI = 0x01;
+const uint8_t OPRMODE[2] = {0x3D, 0x0C};
+const uint8_t EULERANGLE = 0x1A;
 
 extern ARM_DRIVER_USART Driver_USART0;
 extern ARM_DRIVER_USART Driver_USART1;
@@ -31,11 +33,26 @@ USART_TRANSFER_INFO Driver_USART1_INFO;
 
 osSemaphoreId_t semaphoreTransmitId;
 osSemaphoreId_t semaphoreReceiveId;
+osSemaphoreId_t semaphoreDataReadyId;
 
 osSemaphoreAttr_t semaphoreTransmitAttr;
 osSemaphoreAttr_t semaphoreReceiveAttr;
+osSemaphoreAttr_t semaphoreDataReadyAttr;
 
 char tempwhat[32];
+uint8_t eulerAngle[6];
+int16_t eulerAngleX;
+int16_t eulerAngleY;
+int16_t eulerAngleZ;
+
+float pidPitch;
+float pidRoll;
+float pidPitchP;
+float pidPitchI;
+float pidPitchD;
+float pidRollP;
+float pidRollI;
+float pidRollD;
 
 void USART_callback(uint32_t event)
 {
@@ -129,24 +146,20 @@ void ledInitialize(void) {
 void configPWM(void) {
 	LPC_PINCON->PINSEL4 = (1<<0) | (1<<2) | (1<<4) | (1<<6) | (1<<8); //PWM ON PIN 0, 1, 2, 3, 4
 	LPC_PWM1->TCR = (1<<0) | (1<<2);
-	LPC_PWM1->PR = 0xFC;
+	LPC_PWM1->PR = 0xF8; // 0xF8 100Hz
 	LPC_PWM1->MCR = (1<<1);
 	
 	LPC_PWM1->MR0 = 1000; //set period to 100%
 	
-	DutyCycle0 = 600;
-	DutyCycle1 = 600;
-	DutyCycle2 = 600;
-	DutyCycle3 = 600;
-	DutyCycle4 = 600;
+	DutyCycle0 = 100 + 20;
+	DutyCycle1 = 100 + 20;
+	DutyCycle2 = 100 + 20;
+	DutyCycle3 = 100 + 20;
+	DutyCycle4 = 100 + 20;
 	
 	LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 	
 	LPC_PWM1->PCR = (1<<9) | (1<<10) | (1<<11) | (1<<12) | (1<<13); //PWM ON PIN 0, 1, 2, 3, 4
-}
-
-void pwmRunner(void const * params) {
-	configPWM();
 }
 	
 void heartBeatThread(void *arg) {
@@ -158,12 +171,47 @@ void heartBeatThread(void *arg) {
 	}
 }
 
-void configI2C(void *params) {
+void configI2C(void) {
 	uint8_t buf = 0;
 	Driver_I2C1.MasterTransmit (BNOADDRESS, &WHOAMI, 1, false);
 	osSemaphoreAcquire(semaphoreTransmitId, 1000);
   Driver_I2C1.MasterReceive (BNOADDRESS, &buf, 1, false);
 	osSemaphoreAcquire(semaphoreReceiveId, 1000);
+	
+	Driver_I2C1.MasterTransmit (BNOADDRESS, OPRMODE, 2, false);
+	osSemaphoreAcquire(semaphoreTransmitId, 1000);
+}
+
+void imuUpdater(void * params) {
+	configI2C();
+	configPWM();
+	
+	osDelay(1000);
+	
+	while (1) {
+		Driver_I2C1.MasterTransmit (BNOADDRESS, &EULERANGLE, 1, false);
+		osSemaphoreAcquire(semaphoreTransmitId, 1000);
+		Driver_I2C1.MasterReceive (BNOADDRESS, eulerAngle, 6, false);
+		osSemaphoreAcquire(semaphoreReceiveId, 1000);
+		
+		eulerAngleZ = eulerAngle[1] << 8 | eulerAngle[0];
+		eulerAngleY = eulerAngle[3] << 8 | eulerAngle[2];
+		eulerAngleX = eulerAngle[5] << 8 | eulerAngle[4];
+		
+		eulerAngleX = eulerAngleX >> 4;
+		eulerAngleY = eulerAngleY >> 4;
+		eulerAngleZ = eulerAngleZ >> 4;
+		
+		osSemaphoreRelease(semaphoreDataReadyId);
+	}
+}
+
+void computeEngine(void * params) {
+	while (1) {
+		osSemaphoreAcquire(semaphoreDataReadyId, 1000);
+		pidPitch = pidP + 
+		pidRoll
+	}
 }
 
 int main(void) {
@@ -181,12 +229,14 @@ int main(void) {
 	
 	semaphoreTransmitAttr.name = "Transmit Semaphore";
 	semaphoreReceiveAttr.name = "Receive Semaphore";
+	semaphoreDataReadyAttr.name = "DataReady Semaphore";
 	
 	semaphoreTransmitId = osSemaphoreNew(1, 0, &semaphoreTransmitAttr);
 	semaphoreReceiveId = osSemaphoreNew(1, 0, &semaphoreReceiveAttr);
+	semaphoreDataReadyId = osSemaphoreNew(1, 0, &semaphoreDataReadyAttr);
 	
 	osThreadNew(heartBeatThread, NULL, NULL);
-	osThreadNew(configI2C, NULL, NULL);
+	osThreadNew(imuUpdater, NULL, NULL);
 	
 	osKernelStart();
 	

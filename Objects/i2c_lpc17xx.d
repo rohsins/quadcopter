@@ -14,5 +14,5 @@
 .\objects\i2c_lpc17xx.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_I2C.h
 .\objects\i2c_lpc17xx.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include\Driver_Common.h
 .\objects\i2c_lpc17xx.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\i2c_lpc17xx.o: C:\Evoiklo\Keil\quadcopter\RTE\Device\LPC1768\RTE_Device.h
-.\objects\i2c_lpc17xx.o: C:\Evoiklo\Keil\quadcopter\RTE\RTE_Components.h
+.\objects\i2c_lpc17xx.o: D:\Keil\LPC1768_QuadCopter\RTE\Device\LPC1768\RTE_Device.h
+.\objects\i2c_lpc17xx.o: D:\Keil\LPC1768_QuadCopter\RTE\RTE_Components.h

@@ -432,14 +432,14 @@ ARM Macro Assembler    Page 7
               00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\objects\startup_lpc17xx.d -o.\objects\startup_lpc17xx.o -IC:\Evo
-iklo\Keil\quadcopter\RTE -IC:\Evoiklo\Keil\quadcopter\RTE\CMSIS -IC:\Evoiklo\Ke
-il\quadcopter\RTE\Device\LPC1768 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Dr
+ork --depend=.\objects\startup_lpc17xx.d -o.\objects\startup_lpc17xx.o -ID:\Kei
+l\LPC1768_QuadCopter\RTE -ID:\Keil\LPC1768_QuadCopter\RTE\CMSIS -ID:\Keil\LPC17
+68_QuadCopter\RTE\Device\LPC1768 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Dr
 iver\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include -IC:\Keil_v5\A
 RM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1
 .0\CMSIS\RTOS2\RTX\Include -IC:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\Device\
 Include -IC:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\RTE_Driver --predefine="__
-UVISION_VERSION SETA 521" --predefine="_RTE_ SETA 1" --predefine="LPC175x_6x SE
+UVISION_VERSION SETA 520" --predefine="_RTE_ SETA 1" --predefine="LPC175x_6x SE
 TA 1" --list=.\listings\startup_lpc17xx.lst RTE\Device\LPC1768\startup_LPC17xx.
 s
 
