@@ -249,7 +249,6 @@ void computeEngine(void * params) {
 		DutyCycle2 = 100 + throttle - pidPitch;
 		DutyCycle3 = 100 + throttle - pidRoll;
 		
-		osDelay(10);
 	}
 }
 

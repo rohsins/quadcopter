@@ -22,7 +22,6 @@ Section Cross References
     main.o(i._Z13computeEnginePv) refers to fmul.o(x$fpl$fmul) for __aeabi_fmul
     main.o(i._Z13computeEnginePv) refers to faddsub_clz.o(x$fpl$fadd) for __aeabi_fadd
     main.o(i._Z13computeEnginePv) refers to ffixu.o(x$fpl$ffixu) for __aeabi_f2uiz
-    main.o(i._Z13computeEnginePv) refers to rtx_delay.o(.text.osDelay) for osDelay
     main.o(i._Z13computeEnginePv) refers to main.o(.data) for throttle
     main.o(i._Z13ledInitializev) refers to gpio_lpc17xx.o(i.GPIO_SetDir) for GPIO_SetDir
     main.o(i._Z14i2c1Initializev) refers to i2c_lpc17xx.o(.constdata) for Driver_I2C1
@@ -1971,72 +1970,72 @@ Image Symbol Table
     i._Z10imuUpdaterPv                       0x00004b54   Section        0  main.o(i._Z10imuUpdaterPv)
     i._Z12I2C_callbackj                      0x00004c20   Section        0  main.o(i._Z12I2C_callbackj)
     i._Z13computeEnginePv                    0x00004c60   Section        0  main.o(i._Z13computeEnginePv)
-    i._Z13ledInitializev                     0x00004e90   Section        0  main.o(i._Z13ledInitializev)
-    i._Z14i2c1Initializev                    0x00004ea0   Section        0  main.o(i._Z14i2c1Initializev)
-    i._Z9configI2Cv                          0x00004ed0   Section        0  main.o(i._Z9configI2Cv)
-    i._Z9configPWMv                          0x00004f3c   Section        0  main.o(i._Z9configPWMv)
-    i.__NVIC_ClearPendingIRQ                 0x00004f78   Section        0  i2c_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    __NVIC_ClearPendingIRQ                   0x00004f79   Thumb Code    22  i2c_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    i.__NVIC_ClearPendingIRQ                 0x00004f94   Section        0  uart_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    __NVIC_ClearPendingIRQ                   0x00004f95   Thumb Code    22  uart_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    i.__NVIC_ClearPendingIRQ                 0x00004fb0   Section        0  gpdma_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    __NVIC_ClearPendingIRQ                   0x00004fb1   Thumb Code    22  gpdma_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
-    i.__NVIC_DisableIRQ                      0x00004fcc   Section        0  i2c_lpc17xx.o(i.__NVIC_DisableIRQ)
-    __NVIC_DisableIRQ                        0x00004fcd   Thumb Code    54  i2c_lpc17xx.o(i.__NVIC_DisableIRQ)
-    i.__NVIC_EnableIRQ                       0x00005008   Section        0  i2c_lpc17xx.o(i.__NVIC_EnableIRQ)
-    __NVIC_EnableIRQ                         0x00005009   Thumb Code    26  i2c_lpc17xx.o(i.__NVIC_EnableIRQ)
-    i._mutex_acquire                         0x00005022   Section        0  rtx_lib.o(i._mutex_acquire)
-    __tagsym$$used                           0x00005023   Number         0  rtx_lib.o(i._mutex_acquire)
-    i._mutex_free                            0x00005038   Section        0  rtx_lib.o(i._mutex_free)
-    __tagsym$$used                           0x00005039   Number         0  rtx_lib.o(i._mutex_free)
-    i._mutex_initialize                      0x00005044   Section        0  rtx_lib.o(i._mutex_initialize)
-    __tagsym$$used                           0x00005045   Number         0  rtx_lib.o(i._mutex_initialize)
-    i._mutex_release                         0x00005064   Section        0  rtx_lib.o(i._mutex_release)
-    __tagsym$$used                           0x00005065   Number         0  rtx_lib.o(i._mutex_release)
-    i._platform_post_stackheap_init          0x00005076   Section        0  rtx_lib.o(i._platform_post_stackheap_init)
-    i.main                                   0x00005080   Section        0  main.o(i.main)
-    i.osRtxErrorNotify                       0x000051a0   Section        0  rtx_config.o(i.osRtxErrorNotify)
-    i.osRtxIdleThread                        0x000051c0   Section        0  rtx_config.o(i.osRtxIdleThread)
-    i.os_kernel_is_active                    0x000051c4   Section        0  rtx_lib.o(i.os_kernel_is_active)
-    os_kernel_is_active                      0x000051c5   Thumb Code    32  rtx_lib.o(i.os_kernel_is_active)
-    x$fpl$fadd                               0x000051e8   Section      196  faddsub_clz.o(x$fpl$fadd)
-    _fadd1                                   0x000051f7   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
-    x$fpl$fdiv                               0x000052ac   Section      388  fdiv.o(x$fpl$fdiv)
-    _fdiv1                                   0x000052ad   Thumb Code     0  fdiv.o(x$fpl$fdiv)
-    x$fpl$ffixu                              0x00005430   Section       62  ffixu.o(x$fpl$ffixu)
-    x$fpl$fflt                               0x00005470   Section       48  fflt_clz.o(x$fpl$fflt)
-    x$fpl$fmul                               0x000054a0   Section      258  fmul.o(x$fpl$fmul)
-    x$fpl$fnaninf                            0x000055a2   Section      140  fnaninf.o(x$fpl$fnaninf)
-    x$fpl$fretinf                            0x0000562e   Section       10  fretinf.o(x$fpl$fretinf)
-    x$fpl$fsub                               0x00005638   Section      234  faddsub_clz.o(x$fpl$fsub)
-    _fsub1                                   0x00005647   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
-    .constdata                               0x00005722   Section        4  main.o(.constdata)
-    x$fpl$usenofp                            0x00005722   Section        0  usenofp.o(x$fpl$usenofp)
-    WHOAMI                                   0x00005722   Data           1  main.o(.constdata)
-    OPRMODE                                  0x00005723   Data           2  main.o(.constdata)
-    EULERANGLE                               0x00005725   Data           1  main.o(.constdata)
-    .constdata                               0x00005728   Section      100  rtx_lib.o(.constdata)
-    os_idle_thread_attr                      0x00005728   Data          36  rtx_lib.o(.constdata)
-    os_timer_thread_attr                     0x0000574c   Data          36  rtx_lib.o(.constdata)
-    os_timer_mq_attr                         0x00005770   Data          24  rtx_lib.o(.constdata)
-    .constdata                               0x0000578c   Section      100  i2c_lpc17xx.o(.constdata)
-    DriverVersion                            0x0000578c   Data           4  i2c_lpc17xx.o(.constdata)
-    DriverCapabilities                       0x00005790   Data           4  i2c_lpc17xx.o(.constdata)
-    I2C1_Resources                           0x00005794   Data          44  i2c_lpc17xx.o(.constdata)
-    .constdata                               0x000057f0   Section      636  uart_lpc17xx.o(.constdata)
-    usart_driver_version                     0x000057f0   Data           4  uart_lpc17xx.o(.constdata)
-    fract_div_lookup_table                   0x000057f4   Data         288  uart_lpc17xx.o(.constdata)
-    UART0_DMA_Tx                             0x00005914   Data           8  uart_lpc17xx.o(.constdata)
-    UART0_DMA_Rx                             0x0000591c   Data           8  uart_lpc17xx.o(.constdata)
-    USART0_Resources                         0x00005924   Data         100  uart_lpc17xx.o(.constdata)
-    USART1_DMA_Tx                            0x00005988   Data           8  uart_lpc17xx.o(.constdata)
-    USART1_DMA_Rx                            0x00005990   Data           8  uart_lpc17xx.o(.constdata)
-    USART1_Resources                         0x00005998   Data         100  uart_lpc17xx.o(.constdata)
-    .constdata                               0x00005a6c   Section        1  irq_cm3.o(.constdata)
-    .rodata                                  0x00005a70   Section      104  rtx_lib.o(.rodata)
-    __tagsym$$used                           0x00005a70   Number         0  rtx_lib.o(.rodata)
-    [Anonymous Symbol]                       0x00005ad8   Section        0  rtx_kernel.o(.rodata.str1.4)
-    .L.str                                   0x00005ad8   Data          11  rtx_kernel.o(.rodata.str1.4)
+    i._Z13ledInitializev                     0x00004e8c   Section        0  main.o(i._Z13ledInitializev)
+    i._Z14i2c1Initializev                    0x00004e9c   Section        0  main.o(i._Z14i2c1Initializev)
+    i._Z9configI2Cv                          0x00004ecc   Section        0  main.o(i._Z9configI2Cv)
+    i._Z9configPWMv                          0x00004f38   Section        0  main.o(i._Z9configPWMv)
+    i.__NVIC_ClearPendingIRQ                 0x00004f74   Section        0  i2c_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    __NVIC_ClearPendingIRQ                   0x00004f75   Thumb Code    22  i2c_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    i.__NVIC_ClearPendingIRQ                 0x00004f90   Section        0  uart_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    __NVIC_ClearPendingIRQ                   0x00004f91   Thumb Code    22  uart_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    i.__NVIC_ClearPendingIRQ                 0x00004fac   Section        0  gpdma_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    __NVIC_ClearPendingIRQ                   0x00004fad   Thumb Code    22  gpdma_lpc17xx.o(i.__NVIC_ClearPendingIRQ)
+    i.__NVIC_DisableIRQ                      0x00004fc8   Section        0  i2c_lpc17xx.o(i.__NVIC_DisableIRQ)
+    __NVIC_DisableIRQ                        0x00004fc9   Thumb Code    54  i2c_lpc17xx.o(i.__NVIC_DisableIRQ)
+    i.__NVIC_EnableIRQ                       0x00005004   Section        0  i2c_lpc17xx.o(i.__NVIC_EnableIRQ)
+    __NVIC_EnableIRQ                         0x00005005   Thumb Code    26  i2c_lpc17xx.o(i.__NVIC_EnableIRQ)
+    i._mutex_acquire                         0x0000501e   Section        0  rtx_lib.o(i._mutex_acquire)
+    __tagsym$$used                           0x0000501f   Number         0  rtx_lib.o(i._mutex_acquire)
+    i._mutex_free                            0x00005034   Section        0  rtx_lib.o(i._mutex_free)
+    __tagsym$$used                           0x00005035   Number         0  rtx_lib.o(i._mutex_free)
+    i._mutex_initialize                      0x00005040   Section        0  rtx_lib.o(i._mutex_initialize)
+    __tagsym$$used                           0x00005041   Number         0  rtx_lib.o(i._mutex_initialize)
+    i._mutex_release                         0x00005060   Section        0  rtx_lib.o(i._mutex_release)
+    __tagsym$$used                           0x00005061   Number         0  rtx_lib.o(i._mutex_release)
+    i._platform_post_stackheap_init          0x00005072   Section        0  rtx_lib.o(i._platform_post_stackheap_init)
+    i.main                                   0x0000507c   Section        0  main.o(i.main)
+    i.osRtxErrorNotify                       0x0000519c   Section        0  rtx_config.o(i.osRtxErrorNotify)
+    i.osRtxIdleThread                        0x000051bc   Section        0  rtx_config.o(i.osRtxIdleThread)
+    i.os_kernel_is_active                    0x000051c0   Section        0  rtx_lib.o(i.os_kernel_is_active)
+    os_kernel_is_active                      0x000051c1   Thumb Code    32  rtx_lib.o(i.os_kernel_is_active)
+    x$fpl$fadd                               0x000051e4   Section      196  faddsub_clz.o(x$fpl$fadd)
+    _fadd1                                   0x000051f3   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
+    x$fpl$fdiv                               0x000052a8   Section      388  fdiv.o(x$fpl$fdiv)
+    _fdiv1                                   0x000052a9   Thumb Code     0  fdiv.o(x$fpl$fdiv)
+    x$fpl$ffixu                              0x0000542c   Section       62  ffixu.o(x$fpl$ffixu)
+    x$fpl$fflt                               0x0000546c   Section       48  fflt_clz.o(x$fpl$fflt)
+    x$fpl$fmul                               0x0000549c   Section      258  fmul.o(x$fpl$fmul)
+    x$fpl$fnaninf                            0x0000559e   Section      140  fnaninf.o(x$fpl$fnaninf)
+    x$fpl$fretinf                            0x0000562a   Section       10  fretinf.o(x$fpl$fretinf)
+    x$fpl$fsub                               0x00005634   Section      234  faddsub_clz.o(x$fpl$fsub)
+    _fsub1                                   0x00005643   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
+    .constdata                               0x0000571e   Section        4  main.o(.constdata)
+    x$fpl$usenofp                            0x0000571e   Section        0  usenofp.o(x$fpl$usenofp)
+    WHOAMI                                   0x0000571e   Data           1  main.o(.constdata)
+    OPRMODE                                  0x0000571f   Data           2  main.o(.constdata)
+    EULERANGLE                               0x00005721   Data           1  main.o(.constdata)
+    .constdata                               0x00005724   Section      100  rtx_lib.o(.constdata)
+    os_idle_thread_attr                      0x00005724   Data          36  rtx_lib.o(.constdata)
+    os_timer_thread_attr                     0x00005748   Data          36  rtx_lib.o(.constdata)
+    os_timer_mq_attr                         0x0000576c   Data          24  rtx_lib.o(.constdata)
+    .constdata                               0x00005788   Section      100  i2c_lpc17xx.o(.constdata)
+    DriverVersion                            0x00005788   Data           4  i2c_lpc17xx.o(.constdata)
+    DriverCapabilities                       0x0000578c   Data           4  i2c_lpc17xx.o(.constdata)
+    I2C1_Resources                           0x00005790   Data          44  i2c_lpc17xx.o(.constdata)
+    .constdata                               0x000057ec   Section      636  uart_lpc17xx.o(.constdata)
+    usart_driver_version                     0x000057ec   Data           4  uart_lpc17xx.o(.constdata)
+    fract_div_lookup_table                   0x000057f0   Data         288  uart_lpc17xx.o(.constdata)
+    UART0_DMA_Tx                             0x00005910   Data           8  uart_lpc17xx.o(.constdata)
+    UART0_DMA_Rx                             0x00005918   Data           8  uart_lpc17xx.o(.constdata)
+    USART0_Resources                         0x00005920   Data         100  uart_lpc17xx.o(.constdata)
+    USART1_DMA_Tx                            0x00005984   Data           8  uart_lpc17xx.o(.constdata)
+    USART1_DMA_Rx                            0x0000598c   Data           8  uart_lpc17xx.o(.constdata)
+    USART1_Resources                         0x00005994   Data         100  uart_lpc17xx.o(.constdata)
+    .constdata                               0x00005a68   Section        1  irq_cm3.o(.constdata)
+    .rodata                                  0x00005a6c   Section      104  rtx_lib.o(.rodata)
+    __tagsym$$used                           0x00005a6c   Number         0  rtx_lib.o(.rodata)
+    [Anonymous Symbol]                       0x00005ad4   Section        0  rtx_kernel.o(.rodata.str1.4)
+    .L.str                                   0x00005ad4   Data          11  rtx_kernel.o(.rodata.str1.4)
     .bss.os                                  0x10000000   Section     4656  rtx_lib.o(.bss.os)
     os_mem                                   0x10000000   Data        4096  rtx_lib.o(.bss.os)
     os_isr_queue                             0x10001000   Data          64  rtx_lib.o(.bss.os)
@@ -2327,42 +2326,42 @@ Image Symbol Table
     USART_SetBaudrate                        0x00004815   Thumb Code   302  uart_lpc17xx.o(i.USART_SetBaudrate)
     imuUpdater(void*)                        0x00004b55   Thumb Code   168  main.o(i._Z10imuUpdaterPv)
     I2C_callback(unsigned)                   0x00004c21   Thumb Code    52  main.o(i._Z12I2C_callbackj)
-    computeEngine(void*)                     0x00004c61   Thumb Code   484  main.o(i._Z13computeEnginePv)
-    ledInitialize()                          0x00004e91   Thumb Code    14  main.o(i._Z13ledInitializev)
-    i2c1Initialize()                         0x00004ea1   Thumb Code    40  main.o(i._Z14i2c1Initializev)
-    configI2C()                              0x00004ed1   Thumb Code    86  main.o(i._Z9configI2Cv)
-    configPWM()                              0x00004f3d   Thumb Code    52  main.o(i._Z9configPWMv)
-    _mutex_acquire                           0x00005023   Thumb Code    22  rtx_lib.o(i._mutex_acquire)
-    _mutex_free                              0x00005039   Thumb Code    12  rtx_lib.o(i._mutex_free)
-    _mutex_initialize                        0x00005045   Thumb Code    32  rtx_lib.o(i._mutex_initialize)
-    _mutex_release                           0x00005065   Thumb Code    18  rtx_lib.o(i._mutex_release)
-    _platform_post_stackheap_init            0x00005077   Thumb Code     8  rtx_lib.o(i._platform_post_stackheap_init)
-    main                                     0x00005081   Thumb Code   184  main.o(i.main)
-    osRtxErrorNotify                         0x000051a1   Thumb Code    32  rtx_config.o(i.osRtxErrorNotify)
-    osRtxIdleThread                          0x000051c1   Thumb Code     4  rtx_config.o(i.osRtxIdleThread)
-    __aeabi_fadd                             0x000051e9   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
-    _fadd                                    0x000051e9   Thumb Code   196  faddsub_clz.o(x$fpl$fadd)
-    __aeabi_fdiv                             0x000052ad   Thumb Code     0  fdiv.o(x$fpl$fdiv)
-    _fdiv                                    0x000052ad   Thumb Code   384  fdiv.o(x$fpl$fdiv)
-    __aeabi_f2uiz                            0x00005431   Thumb Code     0  ffixu.o(x$fpl$ffixu)
-    _ffixu                                   0x00005431   Thumb Code    62  ffixu.o(x$fpl$ffixu)
-    __aeabi_i2f                              0x00005471   Thumb Code     0  fflt_clz.o(x$fpl$fflt)
-    _fflt                                    0x00005471   Thumb Code    48  fflt_clz.o(x$fpl$fflt)
-    __aeabi_fmul                             0x000054a1   Thumb Code     0  fmul.o(x$fpl$fmul)
-    _fmul                                    0x000054a1   Thumb Code   258  fmul.o(x$fpl$fmul)
-    __fpl_fnaninf                            0x000055a3   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
-    __fpl_fretinf                            0x0000562f   Thumb Code    10  fretinf.o(x$fpl$fretinf)
-    __aeabi_fsub                             0x00005639   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
-    _fsub                                    0x00005639   Thumb Code   234  faddsub_clz.o(x$fpl$fsub)
-    __I$use$fp                               0x00005722   Number         0  usenofp.o(x$fpl$usenofp)
-    osRtxUserSVC                             0x00005788   Data           4  rtx_lib.o(.constdata)
-    Driver_I2C1                              0x000057c0   Data          48  i2c_lpc17xx.o(.constdata)
-    Driver_USART0                            0x000059fc   Data          56  uart_lpc17xx.o(.constdata)
-    Driver_USART1                            0x00005a34   Data          56  uart_lpc17xx.o(.constdata)
-    irqRtxLib                                0x00005a6c   Data           1  irq_cm3.o(.constdata)
-    osRtxConfig                              0x00005a70   Data         104  rtx_lib.o(.rodata)
-    Region$$Table$$Base                      0x00005ae4   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00005b04   Number         0  anon$$obj.o(Region$$Table)
+    computeEngine(void*)                     0x00004c61   Thumb Code   478  main.o(i._Z13computeEnginePv)
+    ledInitialize()                          0x00004e8d   Thumb Code    14  main.o(i._Z13ledInitializev)
+    i2c1Initialize()                         0x00004e9d   Thumb Code    40  main.o(i._Z14i2c1Initializev)
+    configI2C()                              0x00004ecd   Thumb Code    86  main.o(i._Z9configI2Cv)
+    configPWM()                              0x00004f39   Thumb Code    52  main.o(i._Z9configPWMv)
+    _mutex_acquire                           0x0000501f   Thumb Code    22  rtx_lib.o(i._mutex_acquire)
+    _mutex_free                              0x00005035   Thumb Code    12  rtx_lib.o(i._mutex_free)
+    _mutex_initialize                        0x00005041   Thumb Code    32  rtx_lib.o(i._mutex_initialize)
+    _mutex_release                           0x00005061   Thumb Code    18  rtx_lib.o(i._mutex_release)
+    _platform_post_stackheap_init            0x00005073   Thumb Code     8  rtx_lib.o(i._platform_post_stackheap_init)
+    main                                     0x0000507d   Thumb Code   184  main.o(i.main)
+    osRtxErrorNotify                         0x0000519d   Thumb Code    32  rtx_config.o(i.osRtxErrorNotify)
+    osRtxIdleThread                          0x000051bd   Thumb Code     4  rtx_config.o(i.osRtxIdleThread)
+    __aeabi_fadd                             0x000051e5   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
+    _fadd                                    0x000051e5   Thumb Code   196  faddsub_clz.o(x$fpl$fadd)
+    __aeabi_fdiv                             0x000052a9   Thumb Code     0  fdiv.o(x$fpl$fdiv)
+    _fdiv                                    0x000052a9   Thumb Code   384  fdiv.o(x$fpl$fdiv)
+    __aeabi_f2uiz                            0x0000542d   Thumb Code     0  ffixu.o(x$fpl$ffixu)
+    _ffixu                                   0x0000542d   Thumb Code    62  ffixu.o(x$fpl$ffixu)
+    __aeabi_i2f                              0x0000546d   Thumb Code     0  fflt_clz.o(x$fpl$fflt)
+    _fflt                                    0x0000546d   Thumb Code    48  fflt_clz.o(x$fpl$fflt)
+    __aeabi_fmul                             0x0000549d   Thumb Code     0  fmul.o(x$fpl$fmul)
+    _fmul                                    0x0000549d   Thumb Code   258  fmul.o(x$fpl$fmul)
+    __fpl_fnaninf                            0x0000559f   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
+    __fpl_fretinf                            0x0000562b   Thumb Code    10  fretinf.o(x$fpl$fretinf)
+    __aeabi_fsub                             0x00005635   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
+    _fsub                                    0x00005635   Thumb Code   234  faddsub_clz.o(x$fpl$fsub)
+    __I$use$fp                               0x0000571e   Number         0  usenofp.o(x$fpl$usenofp)
+    osRtxUserSVC                             0x00005784   Data           4  rtx_lib.o(.constdata)
+    Driver_I2C1                              0x000057bc   Data          48  i2c_lpc17xx.o(.constdata)
+    Driver_USART0                            0x000059f8   Data          56  uart_lpc17xx.o(.constdata)
+    Driver_USART1                            0x00005a30   Data          56  uart_lpc17xx.o(.constdata)
+    irqRtxLib                                0x00005a68   Data           1  irq_cm3.o(.constdata)
+    osRtxConfig                              0x00005a6c   Data         104  rtx_lib.o(.rodata)
+    Region$$Table$$Base                      0x00005ae0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00005b00   Number         0  anon$$obj.o(Region$$Table)
     Driver_USART1_STATUS                     0x100014d0   Data           4  main.o(.data)
     semaphoreTransmitId                      0x100014d4   Data           4  main.o(.data)
     semaphoreReceiveId                       0x100014d8   Data           4  main.o(.data)
@@ -2403,9 +2402,9 @@ Memory Map of the image
 
   Image Entry point : 0x000000cd
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x000070e4, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00005b4c])
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x000070e0, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00005b48])
 
-    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x00005b04, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x00005b00, Max: 0x00080000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2648,48 +2647,48 @@ Memory Map of the image
     0x00004b44   0x00000010   Code   RO          673    i.USARTx_GetVersion  uart_lpc17xx.o
     0x00004b54   0x000000cc   Code   RO            4    i._Z10imuUpdaterPv  main.o
     0x00004c20   0x00000040   Code   RO            5    i._Z12I2C_callbackj  main.o
-    0x00004c60   0x00000230   Code   RO            6    i._Z13computeEnginePv  main.o
-    0x00004e90   0x0000000e   Code   RO            7    i._Z13ledInitializev  main.o
-    0x00004e9e   0x00000002   PAD
-    0x00004ea0   0x00000030   Code   RO            9    i._Z14i2c1Initializev  main.o
-    0x00004ed0   0x0000006c   Code   RO           16    i._Z9configI2Cv     main.o
-    0x00004f3c   0x0000003c   Code   RO           17    i._Z9configPWMv     main.o
-    0x00004f78   0x0000001c   Code   RO          431    i.__NVIC_ClearPendingIRQ  i2c_lpc17xx.o
-    0x00004f94   0x0000001c   Code   RO          674    i.__NVIC_ClearPendingIRQ  uart_lpc17xx.o
-    0x00004fb0   0x0000001c   Code   RO          941    i.__NVIC_ClearPendingIRQ  gpdma_lpc17xx.o
-    0x00004fcc   0x0000003c   Code   RO          432    i.__NVIC_DisableIRQ  i2c_lpc17xx.o
-    0x00005008   0x0000001a   Code   RO          433    i.__NVIC_EnableIRQ  i2c_lpc17xx.o
-    0x00005022   0x00000016   Code   RO          278    i._mutex_acquire    rtx_lib.o
-    0x00005038   0x0000000c   Code   RO          279    i._mutex_free       rtx_lib.o
-    0x00005044   0x00000020   Code   RO          280    i._mutex_initialize  rtx_lib.o
-    0x00005064   0x00000012   Code   RO          281    i._mutex_release    rtx_lib.o
-    0x00005076   0x00000008   Code   RO          282    i._platform_post_stackheap_init  rtx_lib.o
-    0x0000507e   0x00000002   PAD
-    0x00005080   0x00000120   Code   RO           18    i.main              main.o
-    0x000051a0   0x00000020   Code   RO          370    i.osRtxErrorNotify  rtx_config.o
-    0x000051c0   0x00000004   Code   RO          371    i.osRtxIdleThread   rtx_config.o
-    0x000051c4   0x00000024   Code   RO          283    i.os_kernel_is_active  rtx_lib.o
-    0x000051e8   0x000000c4   Code   RO         1723    x$fpl$fadd          fz_ws.l(faddsub_clz.o)
-    0x000052ac   0x00000184   Code   RO         1730    x$fpl$fdiv          fz_ws.l(fdiv.o)
-    0x00005430   0x0000003e   Code   RO         1733    x$fpl$ffixu         fz_ws.l(ffixu.o)
-    0x0000546e   0x00000002   PAD
-    0x00005470   0x00000030   Code   RO         1738    x$fpl$fflt          fz_ws.l(fflt_clz.o)
-    0x000054a0   0x00000102   Code   RO         1743    x$fpl$fmul          fz_ws.l(fmul.o)
-    0x000055a2   0x0000008c   Code   RO         1759    x$fpl$fnaninf       fz_ws.l(fnaninf.o)
-    0x0000562e   0x0000000a   Code   RO         1761    x$fpl$fretinf       fz_ws.l(fretinf.o)
-    0x00005638   0x000000ea   Code   RO         1725    x$fpl$fsub          fz_ws.l(faddsub_clz.o)
-    0x00005722   0x00000000   Code   RO         1763    x$fpl$usenofp       fz_ws.l(usenofp.o)
-    0x00005722   0x00000004   Data   RO           35    .constdata          main.o
-    0x00005726   0x00000002   PAD
-    0x00005728   0x00000064   Data   RO          289    .constdata          rtx_lib.o
-    0x0000578c   0x00000064   Data   RO          435    .constdata          i2c_lpc17xx.o
-    0x000057f0   0x0000027c   Data   RO          676    .constdata          uart_lpc17xx.o
-    0x00005a6c   0x00000001   Data   RO         1453    .constdata          RTX_CM3.lib(irq_cm3.o)
-    0x00005a6d   0x00000003   PAD
-    0x00005a70   0x00000068   Data   RO          291    .rodata             rtx_lib.o
-    0x00005ad8   0x0000000b   Data   RO         1213    .rodata.str1.4      RTX_CM3.lib(rtx_kernel.o)
-    0x00005ae3   0x00000001   PAD
-    0x00005ae4   0x00000020   Data   RO         1922    Region$$Table       anon$$obj.o
+    0x00004c60   0x0000022c   Code   RO            6    i._Z13computeEnginePv  main.o
+    0x00004e8c   0x0000000e   Code   RO            7    i._Z13ledInitializev  main.o
+    0x00004e9a   0x00000002   PAD
+    0x00004e9c   0x00000030   Code   RO            9    i._Z14i2c1Initializev  main.o
+    0x00004ecc   0x0000006c   Code   RO           16    i._Z9configI2Cv     main.o
+    0x00004f38   0x0000003c   Code   RO           17    i._Z9configPWMv     main.o
+    0x00004f74   0x0000001c   Code   RO          431    i.__NVIC_ClearPendingIRQ  i2c_lpc17xx.o
+    0x00004f90   0x0000001c   Code   RO          674    i.__NVIC_ClearPendingIRQ  uart_lpc17xx.o
+    0x00004fac   0x0000001c   Code   RO          941    i.__NVIC_ClearPendingIRQ  gpdma_lpc17xx.o
+    0x00004fc8   0x0000003c   Code   RO          432    i.__NVIC_DisableIRQ  i2c_lpc17xx.o
+    0x00005004   0x0000001a   Code   RO          433    i.__NVIC_EnableIRQ  i2c_lpc17xx.o
+    0x0000501e   0x00000016   Code   RO          278    i._mutex_acquire    rtx_lib.o
+    0x00005034   0x0000000c   Code   RO          279    i._mutex_free       rtx_lib.o
+    0x00005040   0x00000020   Code   RO          280    i._mutex_initialize  rtx_lib.o
+    0x00005060   0x00000012   Code   RO          281    i._mutex_release    rtx_lib.o
+    0x00005072   0x00000008   Code   RO          282    i._platform_post_stackheap_init  rtx_lib.o
+    0x0000507a   0x00000002   PAD
+    0x0000507c   0x00000120   Code   RO           18    i.main              main.o
+    0x0000519c   0x00000020   Code   RO          370    i.osRtxErrorNotify  rtx_config.o
+    0x000051bc   0x00000004   Code   RO          371    i.osRtxIdleThread   rtx_config.o
+    0x000051c0   0x00000024   Code   RO          283    i.os_kernel_is_active  rtx_lib.o
+    0x000051e4   0x000000c4   Code   RO         1723    x$fpl$fadd          fz_ws.l(faddsub_clz.o)
+    0x000052a8   0x00000184   Code   RO         1730    x$fpl$fdiv          fz_ws.l(fdiv.o)
+    0x0000542c   0x0000003e   Code   RO         1733    x$fpl$ffixu         fz_ws.l(ffixu.o)
+    0x0000546a   0x00000002   PAD
+    0x0000546c   0x00000030   Code   RO         1738    x$fpl$fflt          fz_ws.l(fflt_clz.o)
+    0x0000549c   0x00000102   Code   RO         1743    x$fpl$fmul          fz_ws.l(fmul.o)
+    0x0000559e   0x0000008c   Code   RO         1759    x$fpl$fnaninf       fz_ws.l(fnaninf.o)
+    0x0000562a   0x0000000a   Code   RO         1761    x$fpl$fretinf       fz_ws.l(fretinf.o)
+    0x00005634   0x000000ea   Code   RO         1725    x$fpl$fsub          fz_ws.l(faddsub_clz.o)
+    0x0000571e   0x00000000   Code   RO         1763    x$fpl$usenofp       fz_ws.l(usenofp.o)
+    0x0000571e   0x00000004   Data   RO           35    .constdata          main.o
+    0x00005722   0x00000002   PAD
+    0x00005724   0x00000064   Data   RO          289    .constdata          rtx_lib.o
+    0x00005788   0x00000064   Data   RO          435    .constdata          i2c_lpc17xx.o
+    0x000057ec   0x0000027c   Data   RO          676    .constdata          uart_lpc17xx.o
+    0x00005a68   0x00000001   Data   RO         1453    .constdata          RTX_CM3.lib(irq_cm3.o)
+    0x00005a69   0x00000003   PAD
+    0x00005a6c   0x00000068   Data   RO          291    .rodata             rtx_lib.o
+    0x00005ad4   0x0000000b   Data   RO         1213    .rodata.str1.4      RTX_CM3.lib(rtx_kernel.o)
+    0x00005adf   0x00000001   PAD
+    0x00005ae0   0x00000020   Data   RO         1922    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x10000000, Size: 0x00001ce0, Max: 0x00008000, ABSOLUTE, COMPRESSED[0x00000048])
@@ -2731,7 +2730,7 @@ Image component sizes
       1204         94          0          8        160       8074   gpdma_lpc17xx.o
         56          4          0          0          0        598   gpio_lpc17xx.o
       2924        132        100          4         36      68668   i2c_lpc17xx.o
-      1346        266          4         76        112      77028   main.o
+      1342        268          4         76        112      77024   main.o
        284         10          0          0          0       1464   pin_lpc17xx.o
         36          6          0          0          0        925   rtx_config.o
        128          4        204       5329          0      19516   rtx_lib.o
@@ -2740,7 +2739,7 @@ Image component sizes
       6144        242        636          8        104      77855   uart_lpc17xx.o
 
     ----------------------------------------------------------------------
-     12940        822       1182       5436       1692     256415   Object Totals
+     12936        824       1182       5436       1692     256411   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          6          0          2          7          0          0   (incl. Padding)
 
@@ -2816,15 +2815,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     22102       1240       1198       5600       1792     374483   Grand Totals
-     22102       1240       1198         72       1792     374483   ELF Image Totals (compressed)
-     22102       1240       1198         72          0          0   ROM Totals
+     22098       1242       1198       5600       1792     374479   Grand Totals
+     22098       1242       1198         72       1792     374479   ELF Image Totals (compressed)
+     22098       1242       1198         72          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                23300 (  22.75kB)
+    Total RO  Size (Code + RO Data)                23296 (  22.75kB)
     Total RW  Size (RW Data + ZI Data)              7392 (   7.22kB)
-    Total ROM Size (Code + RO Data + RW Data)      23372 (  22.82kB)
+    Total ROM Size (Code + RO Data + RW Data)      23368 (  22.82kB)
 
 ==============================================================================
 
