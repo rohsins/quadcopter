@@ -6,7 +6,7 @@ extern "C" {
 #include <UART_LPC17xx.h>
 #include <I2C_LPC17xx.h>
 #include <stdio.h>
-#include "ITM_ARM.h"
+//#include "ITM_ARM.h"
 #include <string.h>
 
 #define IER_RBR 1U << 0
@@ -45,14 +45,27 @@ int16_t eulerAngleX;
 int16_t eulerAngleY;
 int16_t eulerAngleZ;
 
+int timeDiff = 10;
+
+float errorPitch;
+float errorRoll;
+float errorPitchD;
+float errorRollD;
+float errorPitchI;
+float errorRollI;
+float errorPitchPrev;
+float errorRollPrev;
+
 float pidPitch;
 float pidRoll;
-float pidPitchP;
-float pidPitchI;
-float pidPitchD;
-float pidRollP;
-float pidRollI;
-float pidRollD;
+const float pidPitchP = 0.5;
+const float pidPitchI = 0;
+const float pidPitchD = 0.1;
+const float pidRollP = 0.5;
+const float pidRollI = 0;
+const float pidRollD = 0.1;
+
+float throttle;
 
 void USART_callback(uint32_t event)
 {
@@ -207,10 +220,36 @@ void imuUpdater(void * params) {
 }
 
 void computeEngine(void * params) {
+	
+	throttle = 10;
+	
 	while (1) {
 		osSemaphoreAcquire(semaphoreDataReadyId, 1000);
-		pidPitch = pidP + 
-		pidRoll
+		
+		errorPitch = 0 - eulerAngleX;
+		errorRoll = 0 - eulerAngleY;
+		
+		errorPitchD = (errorPitch - errorPitchPrev)/timeDiff;
+		errorRollD = (errorRoll - errorRollPrev)/timeDiff;
+		
+		errorPitchI += errorPitch * timeDiff;
+		errorRollI += errorRoll * timeDiff;
+		
+		errorPitchPrev = errorPitch;
+		errorRollPrev = errorRoll;
+		
+		pidPitch = (pidPitchP * errorPitch) + (pidPitchI * errorPitchI) + (pidPitchD * errorPitchD); 
+		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
+		
+		pidPitch = pidPitch*10;
+		pidRoll = pidRoll*10;
+		
+		DutyCycle0 = 100 + throttle + pidPitch;
+		DutyCycle1 = 100 + throttle + pidRoll;
+		DutyCycle2 = 100 + throttle - pidPitch;
+		DutyCycle3 = 100 + throttle - pidRoll;
+		
+		osDelay(10);
 	}
 }
 
@@ -235,8 +274,9 @@ int main(void) {
 	semaphoreReceiveId = osSemaphoreNew(1, 0, &semaphoreReceiveAttr);
 	semaphoreDataReadyId = osSemaphoreNew(1, 0, &semaphoreDataReadyAttr);
 	
-	osThreadNew(heartBeatThread, NULL, NULL);
+//	osThreadNew(heartBeatThread, NULL, NULL);
 	osThreadNew(imuUpdater, NULL, NULL);
+	osThreadNew(computeEngine, NULL, NULL);
 	
 	osKernelStart();
 	
