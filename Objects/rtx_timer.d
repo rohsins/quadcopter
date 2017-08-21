@@ -3,7 +3,7 @@
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Source\rtx_core_c.h
-.\objects\rtx_timer.o: C:\Evoiklo\Keil\quadcopter\RTE\RTE_Components.h
+.\objects\rtx_timer.o: D:\Keil\LPC1768_QuadCopter\RTE\RTE_Components.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\Device\Include\LPC17xx.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm3.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -18,4 +18,4 @@
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Include\rtx_os.h
 .\objects\rtx_timer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Include\rtx_evr.h
-.\objects\rtx_timer.o: C:\Evoiklo\Keil\quadcopter\RTE\CMSIS\RTX_Config.h
+.\objects\rtx_timer.o: D:\Keil\LPC1768_QuadCopter\RTE\CMSIS\RTX_Config.h

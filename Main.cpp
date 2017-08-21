@@ -6,8 +6,9 @@ extern "C" {
 #include <UART_LPC17xx.h>
 #include <I2C_LPC17xx.h>
 #include <stdio.h>
-//#include "ITM_ARM.h"
+#include "ITM_ARM.h"
 #include <string.h>
+#include "RingBuffer.h"
 
 #define IER_RBR 1U << 0
 #define IER_THRE 1U << 1
@@ -34,10 +35,12 @@ USART_TRANSFER_INFO Driver_USART1_INFO;
 osSemaphoreId_t semaphoreTransmitId;
 osSemaphoreId_t semaphoreReceiveId;
 osSemaphoreId_t semaphoreDataReadyId;
+osSemaphoreId_t semaphoreUartDataReadyId;
 
 osSemaphoreAttr_t semaphoreTransmitAttr;
 osSemaphoreAttr_t semaphoreReceiveAttr;
 osSemaphoreAttr_t semaphoreDataReadyAttr;
+osSemaphoreAttr_t semaphoreUartDataReadyAttr;
 
 uint8_t eulerAngle[6];
 int16_t eulerAngleX;
@@ -55,6 +58,9 @@ float errorRollI;
 float errorPitchPrev;
 float errorRollPrev;
 
+int16_t pitchAngle;
+int16_t rollAngle;
+
 float pidPitch;
 float pidRoll;
 const float pidPitchP = 1;
@@ -66,44 +72,55 @@ const float pidRollD = 0.1;
 
 float throttle;
 
+char pData;
+char readout[34];
+
+static char readCheck;
+
+RingBuffer ringBuffer;
+
 void USART_callback(uint32_t event)
 {
-//		static int i;
+		static int i;
 	
-    switch (event)
-    {
-    case ARM_USART_EVENT_RECEIVE_COMPLETE: 
-//				itmPrintln("receive complete");
-//					ringBufferWrite(pData);
-//					ringBufferRead(readout);
-//					itmPrint("readout:"); itmPrintlnInt(*readout);
-//					i++;
-//				itmPrintln(temp);
+    switch (event)	{
+			case ARM_USART_EVENT_RECEIVE_COMPLETE: 
+				readCheck = pData;
+				osSemaphoreRelease(semaphoreUartDataReadyId);
+//			itmPrintln("receive complete");
+						ringBuffer.ringBufferWrite(pData);
+//						itmPrint(&pData);
+						if (readCheck == 0x0A) {
+							ringBuffer.ringBufferStringRead(readout);
+							itmPrint("readout:"); itmPrintln(readout);
+						}
+						i++;
+//					itmPrintln(temp);
+					break;
+			case ARM_USART_EVENT_TRANSFER_COMPLETE:
+				itmPrintln("transfer complete");
 				break;
-    case ARM_USART_EVENT_TRANSFER_COMPLETE:
-//			itmPrintln("transfer complete");
-			break;
-    case ARM_USART_EVENT_SEND_COMPLETE:
-//			itmPrintln("send complete");
-			break;
-    case ARM_USART_EVENT_TX_COMPLETE:
-//			itmPrintln("tx complete");
-        /* Success: Wakeup Thread */
-//        osSignalSet(tid_myUART_Thread, 0x01);
-        break;
- 
-    case ARM_USART_EVENT_RX_TIMEOUT:
-//			itmPrintln("rx timeout");
-         __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
-        break;
- 
-    case ARM_USART_EVENT_RX_OVERFLOW:
-//			itmPrintln("rx overflow");
-			break;
-    case ARM_USART_EVENT_TX_UNDERFLOW:
-//        __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
-		break;		
-	}
+			case ARM_USART_EVENT_SEND_COMPLETE:
+				itmPrintln("send complete");
+				break;
+			case ARM_USART_EVENT_TX_COMPLETE:
+				itmPrintln("tx complete");
+					/* Success: Wakeup Thread */
+	//        osSignalSet(tid_myUART_Thread, 0x01);
+					break;
+	 
+			case ARM_USART_EVENT_RX_TIMEOUT:
+				itmPrintln("rx timeout");
+					 __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
+					break;
+	 
+			case ARM_USART_EVENT_RX_OVERFLOW:
+				itmPrintln("rx overflow");
+				break;
+			case ARM_USART_EVENT_TX_UNDERFLOW:
+	//        __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
+			break;		
+		}
 }
 
 void I2C_callback(uint32_t event) {
@@ -218,25 +235,26 @@ void imuUpdater(void * params) {
 		eulerAngleY = eulerAngleYTemp >> 4;
 		eulerAngleZ = eulerAngleZTemp >> 4;
 		
+		osSemaphoreRelease(semaphoreDataReadyId);
 		osDelay(10);
 	}
 }
 
 void computeEngine(void * params) {
 	
-	throttle = 0;
+	throttle = 5;
 	
 	while (1) {
 		osSemaphoreAcquire(semaphoreDataReadyId, 10);
 		
-		errorPitch = 0 - eulerAngleX;
-		errorRoll = 0 - eulerAngleY;
+		errorPitch = pitchAngle - eulerAngleX;
+		errorRoll = rollAngle - eulerAngleY;
 		
 		errorPitchD = (errorPitch - errorPitchPrev)/timeDiff;
 		errorRollD = (errorRoll - errorRollPrev)/timeDiff;
 		
-		errorPitchI += errorPitch * timeDiff;
-		errorRollI += errorRoll * timeDiff;
+		errorPitchI += (errorPitch/10) * timeDiff;
+		errorRollI += (errorRoll/10) * timeDiff;
 		
 		errorPitchPrev = errorPitch;
 		errorRollPrev = errorRoll;
@@ -256,6 +274,14 @@ void computeEngine(void * params) {
 	}
 }
 
+void uart0Thread(void * params) {
+	char temp;
+	while (1) {
+		Driver_USART0.Receive(&pData, 1);
+		osSemaphoreAcquire(semaphoreUartDataReadyId, 10000);
+	}
+}
+
 int main(void) {
 	
 	SystemCoreClockUpdate ();
@@ -263,9 +289,10 @@ int main(void) {
 		
 	osKernelInitialize();
 
-//	uart0Initialize();
-//	uart1Initialize();
-//	osDelay(100);
+	uart0Initialize();
+	
+	Driver_USART0.Send("hello\n", 6);
+	
 	ledInitialize();
 	i2c1Initialize();
 	
@@ -276,6 +303,7 @@ int main(void) {
 	semaphoreTransmitId = osSemaphoreNew(1, 0, &semaphoreTransmitAttr);
 	semaphoreReceiveId = osSemaphoreNew(1, 0, &semaphoreReceiveAttr);
 	semaphoreDataReadyId = osSemaphoreNew(1, 0, &semaphoreDataReadyAttr);
+	semaphoreUartDataReadyId = osSemaphoreNew(1, 0, &semaphoreUartDataReadyAttr);
 	
 	osThreadAttr_t osThreadUpdaterAttr;
 	osThreadUpdaterAttr.name = "IMU Updater";
@@ -286,16 +314,33 @@ int main(void) {
 	osThreadUpdaterAttr.stack_mem = 0;
 	
 	osThreadAttr_t osThreadHeartBeatAttr;
-	osThreadHeartBeatAttr.name = "IMU Updater";
+	osThreadHeartBeatAttr.name = "HeartBeat";
 	osThreadHeartBeatAttr.priority = osPriorityNormal;
-	osThreadHeartBeatAttr.stack_size = 200;
+	osThreadHeartBeatAttr.stack_size = 0;
 	osThreadHeartBeatAttr.cb_mem = 0;
 	osThreadHeartBeatAttr.cb_size = 0;
 	osThreadHeartBeatAttr.stack_mem = 0;
 	
+	osThreadAttr_t osThreadComputeEngineAttr;
+	osThreadComputeEngineAttr.name = "Compute Engine";
+	osThreadComputeEngineAttr.priority = osPriorityNormal;
+	osThreadComputeEngineAttr.stack_size = 400;
+	osThreadComputeEngineAttr.cb_mem = 0;
+	osThreadComputeEngineAttr.cb_size = 0;
+	osThreadComputeEngineAttr.stack_mem = 0;
+	
+	osThreadAttr_t osThreadUartReadAttr;
+	osThreadUartReadAttr.name = "UartRead";
+	osThreadUartReadAttr.priority = osPriorityNormal;
+	osThreadUartReadAttr.stack_size = 200;
+	osThreadUartReadAttr.cb_mem = 0;
+	osThreadUartReadAttr.cb_size = 0;
+	osThreadUartReadAttr.stack_mem = 0;
+	
 	osThreadNew(heartBeatThread, NULL, &osThreadHeartBeatAttr);
 	osThreadNew(imuUpdater, NULL, &osThreadUpdaterAttr);
-	osThreadNew(computeEngine, NULL, NULL);
+	osThreadNew(computeEngine, NULL, &osThreadComputeEngineAttr);
+	osThreadNew(uart0Thread, NULL, &osThreadUartReadAttr);
 	
 	osKernelStart();
 	

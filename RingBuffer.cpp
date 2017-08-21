@@ -43,7 +43,8 @@ uint32_t RingBuffer::ringBufferStringRead(char *out) {
 		tempCounter++;
 		if ( ringBufferVariable[tail] == '\n' ) {
 			tempCounter = 0;
-			tail++;
+//			tail++;
+			tail = ((tail + 1) % RINGBUFFLENGTH);
 		}
 	}
 	return 0;
