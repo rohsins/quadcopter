@@ -169,14 +169,14 @@
 //   <i> Defines stack size for threads with zero stack size specified.
 //   <i> Default: 200
 #ifndef OS_STACK_SIZE
-#define OS_STACK_SIZE               200
+#define OS_STACK_SIZE               600
 #endif
  
 //   <o>Idle Thread Stack size [bytes] <72-1073741824:8>
 //   <i> Defines stack size for Idle thread.
 //   <i> Default: 200
 #ifndef OS_IDLE_THREAD_STACK_SIZE
-#define OS_IDLE_THREAD_STACK_SIZE   200
+#define OS_IDLE_THREAD_STACK_SIZE   600
 #endif
  
 //   <q>Stack overrun checking
@@ -229,7 +229,7 @@
 //   <i> Defines priority for timer thread
 //   <i> Default: High
 #ifndef OS_TIMER_THREAD_PRIO
-#define OS_TIMER_THREAD_PRIO        40
+#define OS_TIMER_THREAD_PRIO        48
 #endif
  
 //   <o>Timer Thread Stack size [bytes] <0-1073741824:8>
@@ -237,7 +237,7 @@
 //   <i> May be set to 0 when timers are not used.
 //   <i> Default: 200
 #ifndef OS_TIMER_THREAD_STACK_SIZE
-#define OS_TIMER_THREAD_STACK_SIZE  200
+#define OS_TIMER_THREAD_STACK_SIZE  600
 #endif
  
 //   <o>Timer Callback Queue entries <0-256>

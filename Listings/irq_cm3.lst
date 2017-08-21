@@ -216,10 +216,10 @@ E\Device\LPC1768 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include -IC
 :\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSI
 S\5.1.0\CMSIS\RTOS2\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\R
 TX\Include -IC:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\Device\Include -IC:\Kei
-l_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\RTE_Driver --predefine="__UVISION_VERSION 
-SETA 521" --predefine="_RTE_ SETA 1" --predefine="LPC175x_6x SETA 1" --list=.\l
-istings\irq_cm3.lst C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Source\
-ARM\irq_cm3.s
+l_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\RTE_Driver --predefine="__MICROLIB SETA 1"
+ --predefine="__UVISION_VERSION SETA 521" --predefine="_RTE_ SETA 1" --predefin
+e="LPC175x_6x SETA 1" --list=.\listings\irq_cm3.lst C:\Keil_v5\ARM\PACK\ARM\CMS
+IS\5.1.0\CMSIS\RTOS2\RTX\Source\ARM\irq_cm3.s
 
 
 
@@ -443,4 +443,4 @@ urce\ARM\irq_cm3.s
 urce\ARM\irq_cm3.s
 Comment: osRtxUserSVC used once
 4 symbols
-354 symbols in table
+355 symbols in table

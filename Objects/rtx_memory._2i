@@ -1,0 +1,12 @@
+--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections
+-IC:\Evoiklo\Keil\quadcopter\RTE
+-IC:\Evoiklo\Keil\quadcopter\RTE\CMSIS
+-IC:\Evoiklo\Keil\quadcopter\RTE\Device\LPC1768
+-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Driver\Include
+-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include
+-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\Include
+-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Include
+-IC:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\Device\Include
+-IC:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\RTE_Driver
+-D__UVISION_VERSION="521" -D_RTE_ -DLPC175x_6x
+-o .\objects\rtx_memory.o --omf_browse .\objects\rtx_memory.crf --depend .\objects\rtx_memory.d --feedback ".\Objects\LPC1768_new.fed" "C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Source\rtx_memory.c"

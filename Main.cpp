@@ -39,7 +39,6 @@ osSemaphoreAttr_t semaphoreTransmitAttr;
 osSemaphoreAttr_t semaphoreReceiveAttr;
 osSemaphoreAttr_t semaphoreDataReadyAttr;
 
-char tempwhat[32];
 uint8_t eulerAngle[6];
 int16_t eulerAngleX;
 int16_t eulerAngleY;
@@ -58,10 +57,10 @@ float errorRollPrev;
 
 float pidPitch;
 float pidRoll;
-const float pidPitchP = 0.5;
+const float pidPitchP = 1;
 const float pidPitchI = 0;
 const float pidPitchD = 0.1;
-const float pidRollP = 0.5;
+const float pidRollP = 1;
 const float pidRollI = 0;
 const float pidRollD = 0.1;
 
@@ -164,11 +163,11 @@ void configPWM(void) {
 	
 	LPC_PWM1->MR0 = 1000; //set period to 100%
 	
-	DutyCycle0 = 100 + 20;
-	DutyCycle1 = 100 + 20;
-	DutyCycle2 = 100 + 20;
-	DutyCycle3 = 100 + 20;
-	DutyCycle4 = 100 + 20;
+//	DutyCycle0 = 100 + 20;
+//	DutyCycle1 = 100 + 20;
+//	DutyCycle2 = 100 + 20;
+//	DutyCycle3 = 100 + 20;
+//	DutyCycle4 = 100 + 20;
 	
 	LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 	
@@ -178,53 +177,57 @@ void configPWM(void) {
 void heartBeatThread(void *arg) {
 	while (1) {
 		GPIO_PinWrite(2, 7, 0);
-		osDelay(20);
+		osDelay(10);
 		GPIO_PinWrite(2, 7, 1);
-		osDelay(2000);
+		osDelay(1000);
 	}
 }
 
 void configI2C(void) {
 	uint8_t buf = 0;
 	Driver_I2C1.MasterTransmit (BNOADDRESS, &WHOAMI, 1, false);
-	osSemaphoreAcquire(semaphoreTransmitId, 1000);
+	osSemaphoreAcquire(semaphoreTransmitId, 100);
   Driver_I2C1.MasterReceive (BNOADDRESS, &buf, 1, false);
-	osSemaphoreAcquire(semaphoreReceiveId, 1000);
+	osSemaphoreAcquire(semaphoreReceiveId, 100);
 	
 	Driver_I2C1.MasterTransmit (BNOADDRESS, OPRMODE, 2, false);
-	osSemaphoreAcquire(semaphoreTransmitId, 1000);
+	osSemaphoreAcquire(semaphoreTransmitId, 100);
 }
 
 void imuUpdater(void * params) {
 	configI2C();
 	configPWM();
 	
-	osDelay(1000);
+	osDelay(20);
+	
+	int16_t eulerAngleXTemp = 0;
+	int16_t eulerAngleYTemp = 0;
+	int16_t eulerAngleZTemp = 0;
 	
 	while (1) {
 		Driver_I2C1.MasterTransmit (BNOADDRESS, &EULERANGLE, 1, false);
-		osSemaphoreAcquire(semaphoreTransmitId, 1000);
+		osSemaphoreAcquire(semaphoreTransmitId, 100);
 		Driver_I2C1.MasterReceive (BNOADDRESS, eulerAngle, 6, false);
-		osSemaphoreAcquire(semaphoreReceiveId, 1000);
+		osSemaphoreAcquire(semaphoreReceiveId, 100);
 		
-		eulerAngleZ = eulerAngle[1] << 8 | eulerAngle[0];
-		eulerAngleY = eulerAngle[3] << 8 | eulerAngle[2];
-		eulerAngleX = eulerAngle[5] << 8 | eulerAngle[4];
+		eulerAngleZTemp = eulerAngle[1] << 8 | eulerAngle[0];
+		eulerAngleYTemp = eulerAngle[3] << 8 | eulerAngle[2];
+		eulerAngleXTemp = eulerAngle[5] << 8 | eulerAngle[4];
 		
-		eulerAngleX = eulerAngleX >> 4;
-		eulerAngleY = eulerAngleY >> 4;
-		eulerAngleZ = eulerAngleZ >> 4;
+		eulerAngleX = eulerAngleXTemp >> 4;
+		eulerAngleY = eulerAngleYTemp >> 4;
+		eulerAngleZ = eulerAngleZTemp >> 4;
 		
-		osSemaphoreRelease(semaphoreDataReadyId);
+		osDelay(10);
 	}
 }
 
 void computeEngine(void * params) {
 	
-	throttle = 10;
+	throttle = 0;
 	
 	while (1) {
-		osSemaphoreAcquire(semaphoreDataReadyId, 1000);
+		osSemaphoreAcquire(semaphoreDataReadyId, 10);
 		
 		errorPitch = 0 - eulerAngleX;
 		errorRoll = 0 - eulerAngleY;
@@ -241,14 +244,15 @@ void computeEngine(void * params) {
 		pidPitch = (pidPitchP * errorPitch) + (pidPitchI * errorPitchI) + (pidPitchD * errorPitchD); 
 		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
 		
-		pidPitch = pidPitch*10;
-		pidRoll = pidRoll*10;
+		pidPitch = pidPitch*1;
+		pidRoll = pidRoll*1;
 		
 		DutyCycle0 = 100 + throttle + pidPitch;
 		DutyCycle1 = 100 + throttle + pidRoll;
 		DutyCycle2 = 100 + throttle - pidPitch;
 		DutyCycle3 = 100 + throttle - pidRoll;
 		
+		osDelay(10);
 	}
 }
 
@@ -273,11 +277,29 @@ int main(void) {
 	semaphoreReceiveId = osSemaphoreNew(1, 0, &semaphoreReceiveAttr);
 	semaphoreDataReadyId = osSemaphoreNew(1, 0, &semaphoreDataReadyAttr);
 	
-//	osThreadNew(heartBeatThread, NULL, NULL);
-	osThreadNew(imuUpdater, NULL, NULL);
+	osThreadAttr_t osThreadUpdaterAttr;
+	osThreadUpdaterAttr.name = "IMU Updater";
+	osThreadUpdaterAttr.priority = osPriorityHigh;
+	osThreadUpdaterAttr.stack_size = 200;
+	osThreadUpdaterAttr.cb_mem = 0;
+	osThreadUpdaterAttr.cb_size = 0;
+	osThreadUpdaterAttr.stack_mem = 0;
+	
+	osThreadAttr_t osThreadHeartBeatAttr;
+	osThreadHeartBeatAttr.name = "IMU Updater";
+	osThreadHeartBeatAttr.priority = osPriorityNormal;
+	osThreadHeartBeatAttr.stack_size = 200;
+	osThreadHeartBeatAttr.cb_mem = 0;
+	osThreadHeartBeatAttr.cb_size = 0;
+	osThreadHeartBeatAttr.stack_mem = 0;
+	
+	osThreadNew(heartBeatThread, NULL, &osThreadHeartBeatAttr);
+	osThreadNew(imuUpdater, NULL, &osThreadUpdaterAttr);
 	osThreadNew(computeEngine, NULL, NULL);
 	
 	osKernelStart();
 	
-	return 0;
+	while (1) {
+		
+	}
 }
