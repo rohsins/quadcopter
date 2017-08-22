@@ -6,8 +6,9 @@ extern "C" {
 #include <UART_LPC17xx.h>
 #include <I2C_LPC17xx.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "ITM_ARM.h"
-#include <string.h>
+#include <string>
 #include "RingBuffer.h"
 
 #define IER_RBR 1U << 0
@@ -78,6 +79,8 @@ char readout[34];
 static char readCheck;
 
 RingBuffer ringBuffer;
+
+using namespace std;
 
 void USART_callback(uint32_t event)	{
     switch (event)	{
@@ -265,13 +268,19 @@ void computeEngine(void * params) {
 }
 
 void uart0Thread(void * params) {
-	char temp;
+	static int checkIntegerValue = 0;
 	while (1) {
 		Driver_USART0.Receive(&pData, 1);
 		osSemaphoreAcquire(semaphoreUartDataReadyId, osWaitForever);
 		if (readCheck == 0x0A) {
 			ringBuffer.ringBufferStringRead(readout);
 			itmPrint("readout:"); itmPrintln(readout);
+			if (strncmp(readout, "throttle", 8) == 0) {
+				checkIntegerValue = (atoi(&readout[9]))*10;
+				checkIntegerValue /= 10;
+				throttle = checkIntegerValue;
+//				checkIntegerValue += atoi(&readout[10]);
+			}
 			memset(readout, 0, 34);
 		}
 	}
