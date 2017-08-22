@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\LPC1768_new.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\LPC1768_new.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Mon Aug 21 18:36:24 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Tue Aug 22 15:37:33 2017
 <BR><P>
-<H3>Maximum Stack Usage =        224 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; SystemCoreClockUpdate &rArr; __aeabi_uldivmod
 <P>
@@ -278,7 +278,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[8c]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 240 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; SystemCoreClockUpdate &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -701,7 +701,8 @@ Global Symbols
 <P><STRONG><a name="[bb]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcRtxKernelInitialize
+<BR>[Called By]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart0Thread(void*)
+<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;svcRtxKernelInitialize
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2Cx_Initialize
 </UL>
 
@@ -1104,10 +1105,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;heartBeatThread(void*)
 </UL>
 
-<P><STRONG><a name="[ec]"></a>GPIO_SetDir</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, gpio_lpc17xx.o(i.GPIO_SetDir))
+<P><STRONG><a name="[ef]"></a>GPIO_SetDir</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, gpio_lpc17xx.o(i.GPIO_SetDir))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GPIO_SetDir
 </UL>
-<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledInitialize()
+<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledInitialize()
 </UL>
 
 <P><STRONG><a name="[19]"></a>I2C1_IRQHandler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, i2c_lpc17xx.o(i.I2C1_IRQHandler))
@@ -1223,14 +1224,18 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[f0]"></a>itmPrintln(char*)</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, itm_arm.o(i._Z10itmPrintlnPc))
-<BR><BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_callback(unsigned)
+<P><STRONG><a name="[e7]"></a>itmPrintln(char*)</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, itm_arm.o(i._Z10itmPrintlnPc))
+<BR><BR>[Called By]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart0Thread(void*)
 </UL>
 
-<P><STRONG><a name="[38]"></a>uart0Thread(void*)</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i._Z11uart0ThreadPv))
+<P><STRONG><a name="[38]"></a>uart0Thread(void*)</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, main.o(i._Z11uart0ThreadPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uart0Thread(void*) &rArr; osSemaphoreAcquire &rArr; SemaphoreTokenDecrement
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSemaphoreAcquire
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RingBuffer::ringBufferStringRead(char*)
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;itmPrint(char*)
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;itmPrintln(char*)
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
@@ -1246,31 +1251,28 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSemaphoreAcquire
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
+<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[eb]"></a>ledInitialize()</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, main.o(i._Z13ledInitializev))
+<P><STRONG><a name="[ee]"></a>ledInitialize()</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, main.o(i._Z13ledInitializev))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = ledInitialize() &rArr; GPIO_SetDir
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetDir
+<BR>[Calls]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetDir
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[34]"></a>USART_callback(unsigned)</STRONG> (Thumb, 152 bytes, Stack size 8 bytes, main.o(i._Z14USART_callbackj))
+<P><STRONG><a name="[34]"></a>USART_callback(unsigned)</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, main.o(i._Z14USART_callbackj))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = USART_callback(unsigned) &rArr; osSemaphoreRelease &rArr; osRtxPostProcess &rArr; isr_queue_put
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSemaphoreRelease
-<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RingBuffer::ringBufferStringRead(char*)
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RingBuffer::ringBufferWrite(char)
-<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;itmPrint(char*)
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;itmPrintln(char*)
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RingBuffer::ringBufferWrite(char)
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i._Z15uart0Initializev)
 </UL>
@@ -1296,8 +1298,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ef]"></a>itmPrint(char*)</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, itm_arm.o(i._Z8itmPrintPc))
-<BR><BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_callback(unsigned)
+<P><STRONG><a name="[e6]"></a>itmPrint(char*)</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, itm_arm.o(i._Z8itmPrintPc))
+<BR><BR>[Called By]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart0Thread(void*)
 </UL>
 
 <P><STRONG><a name="[e0]"></a>configI2C()</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, main.o(i._Z9configI2Cv))
@@ -1312,16 +1314,16 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imuUpdater(void*)
 </UL>
 
-<P><STRONG><a name="[ed]"></a>RingBuffer::ringBufferWrite(char)</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, ringbuffer.o(i._ZN10RingBuffer15ringBufferWriteEc))
+<P><STRONG><a name="[f0]"></a>RingBuffer::ringBufferWrite(char)</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, ringbuffer.o(i._ZN10RingBuffer15ringBufferWriteEc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = RingBuffer::ringBufferWrite(char)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_callback(unsigned)
 </UL>
 
-<P><STRONG><a name="[ee]"></a>RingBuffer::ringBufferStringRead(char*)</STRONG> (Thumb, 86 bytes, Stack size 12 bytes, ringbuffer.o(i._ZN10RingBuffer20ringBufferStringReadEPc))
+<P><STRONG><a name="[e5]"></a>RingBuffer::ringBufferStringRead(char*)</STRONG> (Thumb, 74 bytes, Stack size 12 bytes, ringbuffer.o(i._ZN10RingBuffer20ringBufferStringReadEPc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = RingBuffer::ringBufferStringRead(char*)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_callback(unsigned)
+<BR>[Called By]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart0Thread(void*)
 </UL>
 
 <P><STRONG><a name="[7d]"></a>_mutex_acquire</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, rtx_lib.o(i._mutex_acquire), UNUSED, KEPT)
@@ -1359,8 +1361,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_postsh_1
 </UL>
 
-<P><STRONG><a name="[8d]"></a>main</STRONG> (Thumb, 312 bytes, Stack size 144 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = main &rArr; SystemCoreClockUpdate &rArr; __aeabi_uldivmod
+<P><STRONG><a name="[8d]"></a>main</STRONG> (Thumb, 316 bytes, Stack size 160 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = main &rArr; SystemCoreClockUpdate &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadNew
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSemaphoreNew
@@ -1369,7 +1371,7 @@ Global Symbols
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart0Initialize()
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;i2c1Initialize()
-<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledInitialize()
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledInitialize()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -2145,7 +2147,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rtx_thread.o(i.osThreadNew)
 </UL>
-<P><STRONG><a name="[e9]"></a>__aeabi_fadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, faddsub_clz.o(x$fpl$fadd))
+<P><STRONG><a name="[ec]"></a>__aeabi_fadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, faddsub_clz.o(x$fpl$fadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_fadd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)
@@ -2157,7 +2159,7 @@ Global Symbols
 <LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fsub1
 </UL>
 
-<P><STRONG><a name="[e7]"></a>__aeabi_fdiv</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, fdiv.o(x$fpl$fdiv))
+<P><STRONG><a name="[ea]"></a>__aeabi_fdiv</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, fdiv.o(x$fpl$fdiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_fdiv
 </UL>
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)
@@ -2168,7 +2170,7 @@ Global Symbols
 <LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fnaninf
 </UL>
 
-<P><STRONG><a name="[ea]"></a>__aeabi_f2uiz</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, ffixu.o(x$fpl$ffixu))
+<P><STRONG><a name="[ed]"></a>__aeabi_f2uiz</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, ffixu.o(x$fpl$ffixu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2uiz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)
@@ -2178,13 +2180,13 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fnaninf
 </UL>
 
-<P><STRONG><a name="[e5]"></a>__aeabi_i2f</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fflt_clz.o(x$fpl$fflt))
+<P><STRONG><a name="[e8]"></a>__aeabi_i2f</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fflt_clz.o(x$fpl$fflt))
 <BR><BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)
 </UL>
 
 <P><STRONG><a name="[1ed]"></a>_fflt</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, fflt_clz.o(x$fpl$fflt), UNUSED)
 
-<P><STRONG><a name="[e8]"></a>__aeabi_fmul</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, fmul.o(x$fpl$fmul))
+<P><STRONG><a name="[eb]"></a>__aeabi_fmul</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, fmul.o(x$fpl$fmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_fmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)
@@ -2209,7 +2211,7 @@ Global Symbols
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fadd
 </UL>
 
-<P><STRONG><a name="[e6]"></a>__aeabi_fsub</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, faddsub_clz.o(x$fpl$fsub))
+<P><STRONG><a name="[e9]"></a>__aeabi_fsub</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, faddsub_clz.o(x$fpl$fsub))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_fsub
 </UL>
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeEngine(void*)

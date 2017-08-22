@@ -79,46 +79,36 @@ static char readCheck;
 
 RingBuffer ringBuffer;
 
-void USART_callback(uint32_t event)
-{
-		static int i;
-	
+void USART_callback(uint32_t event)	{
     switch (event)	{
 			case ARM_USART_EVENT_RECEIVE_COMPLETE: 
 				readCheck = pData;
+				ringBuffer.ringBufferWrite(pData);
 				osSemaphoreRelease(semaphoreUartDataReadyId);
 //			itmPrintln("receive complete");
-						ringBuffer.ringBufferWrite(pData);
-//						itmPrint(&pData);
-						if (readCheck == 0x0A) {
-							ringBuffer.ringBufferStringRead(readout);
-							itmPrint("readout:"); itmPrintln(readout);
-						}
-						i++;
-//					itmPrintln(temp);
-					break;
+				break;
 			case ARM_USART_EVENT_TRANSFER_COMPLETE:
-				itmPrintln("transfer complete");
+//				itmPrintln("transfer complete");
 				break;
 			case ARM_USART_EVENT_SEND_COMPLETE:
-				itmPrintln("send complete");
+//				itmPrintln("send complete");
 				break;
 			case ARM_USART_EVENT_TX_COMPLETE:
-				itmPrintln("tx complete");
+//				itmPrintln("tx complete");
 					/* Success: Wakeup Thread */
 	//        osSignalSet(tid_myUART_Thread, 0x01);
 					break;
 	 
 			case ARM_USART_EVENT_RX_TIMEOUT:
-				itmPrintln("rx timeout");
+//				itmPrintln("rx timeout");
 					 __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
 					break;
 	 
 			case ARM_USART_EVENT_RX_OVERFLOW:
-				itmPrintln("rx overflow");
+//				itmPrintln("rx overflow");
 				break;
 			case ARM_USART_EVENT_TX_UNDERFLOW:
-	//        __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
+	        __breakpoint(0);  /* Error: Call debugger or replace with custom error handling */
 			break;		
 		}
 }
@@ -278,7 +268,12 @@ void uart0Thread(void * params) {
 	char temp;
 	while (1) {
 		Driver_USART0.Receive(&pData, 1);
-		osSemaphoreAcquire(semaphoreUartDataReadyId, 10000);
+		osSemaphoreAcquire(semaphoreUartDataReadyId, osWaitForever);
+		if (readCheck == 0x0A) {
+			ringBuffer.ringBufferStringRead(readout);
+			itmPrint("readout:"); itmPrintln(readout);
+			memset(readout, 0, 34);
+		}
 	}
 }
 
@@ -343,8 +338,4 @@ int main(void) {
 	osThreadNew(uart0Thread, NULL, &osThreadUartReadAttr);
 	
 	osKernelStart();
-	
-	while (1) {
-		
-	}
 }

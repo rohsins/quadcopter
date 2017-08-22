@@ -37,15 +37,16 @@ uint32_t RingBuffer::ringBufferStringRead(char *out) {
 		return 1;
 	}
 	while ( head != tail ) {
-		out[tempCounter]=ringBufferVariable[tail];
-		ringBufferVariable[tail] = 0;
-		tail = ((tail + 1) % RINGBUFFLENGTH);
-		tempCounter++;
+//		out[tempCounter]=ringBufferVariable[tail];
 		if ( ringBufferVariable[tail] == '\n' ) {
 			tempCounter = 0;
-//			tail++;
-			tail = ((tail + 1) % RINGBUFFLENGTH);
+//			tail = ((tail + 1) % RINGBUFFLENGTH);
+		} else {
+			out[tempCounter]=ringBufferVariable[tail];
 		}
+		ringBufferVariable[tail] = 0;
+		tempCounter++;
+		tail = ((tail + 1) % RINGBUFFLENGTH);
 	}
 	return 0;
 }
