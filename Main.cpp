@@ -71,7 +71,7 @@ const float pidRollP = 1;
 const float pidRollI = 0;
 const float pidRollD = 0.1;
 
-float throttle;
+int throttle;
 
 char pData;
 char readout[34];
@@ -168,10 +168,10 @@ void ledInitialize(void) {
 void configPWM(void) {
 	LPC_PINCON->PINSEL4 = (1<<0) | (1<<2) | (1<<4) | (1<<6) | (1<<8); //PWM ON PIN 0, 1, 2, 3, 4
 	LPC_PWM1->TCR = (1<<0) | (1<<2);
-	LPC_PWM1->PR = 0xF8; // 0xF8 100Hz
+	LPC_PWM1->PR = 0x18; // 0xF8 100Hz
 	LPC_PWM1->MCR = (1<<1);
 	
-	LPC_PWM1->MR0 = 1000; //set period to 100%
+	LPC_PWM1->MR0 = 10000; //set period to 100%
 	
 //	DutyCycle0 = 100 + 20;
 //	DutyCycle1 = 100 + 20;
@@ -235,7 +235,7 @@ void imuUpdater(void * params) {
 
 void computeEngine(void * params) {
 	
-	throttle = 5;
+	throttle = 0;
 	
 	while (1) {
 		osSemaphoreAcquire(semaphoreDataReadyId, 10);
@@ -258,10 +258,10 @@ void computeEngine(void * params) {
 		pidPitch = pidPitch*1;
 		pidRoll = pidRoll*1;
 		
-		DutyCycle0 = 100 + throttle + pidPitch;
-		DutyCycle1 = 100 + throttle + pidRoll;
-		DutyCycle2 = 100 + throttle - pidPitch;
-		DutyCycle3 = 100 + throttle - pidRoll;
+		DutyCycle0 = 1000 + throttle + pidPitch;
+		DutyCycle1 = 1000 + throttle + pidRoll;
+		DutyCycle2 = 1000 + throttle - pidPitch;
+		DutyCycle3 = 1000 + throttle - pidRoll;
 		
 		osDelay(10);
 	}
@@ -269,16 +269,22 @@ void computeEngine(void * params) {
 
 void uart0Thread(void * params) {
 	static int checkIntegerValue = 0;
+	char tempArray[34];
 	while (1) {
 		Driver_USART0.Receive(&pData, 1);
 		osSemaphoreAcquire(semaphoreUartDataReadyId, osWaitForever);
 		if (readCheck == 0x0A) {
 			ringBuffer.ringBufferStringRead(readout);
-			itmPrint("readout:"); itmPrintln(readout);
+			itmPrint((char *)"readout:"); itmPrintln(readout);
 			if (strncmp(readout, "throttle", 8) == 0) {
 				checkIntegerValue = (atoi(&readout[9]))*10;
 				checkIntegerValue /= 10;
 				throttle = checkIntegerValue;
+				Driver_USART0.Send("throttle: ", 10);
+				memset(tempArray, 0, 34);
+				sprintf(tempArray, "%d", throttle);
+				Driver_USART0.Send(tempArray, 4);
+				Driver_USART0.Send("\n", 1);
 //				checkIntegerValue += atoi(&readout[10]);
 			}
 			memset(readout, 0, 34);
@@ -295,7 +301,7 @@ int main(void) {
 
 	uart0Initialize();
 	
-	Driver_USART0.Send("hello\n", 6);
+	Driver_USART0.Send("\nSystem Initialize\n", 19);
 	
 	ledInitialize();
 	i2c1Initialize();

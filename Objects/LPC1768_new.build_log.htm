@@ -27,6 +27,9 @@ Project File Date:  08/21/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
+compiling Main.cpp...
+linking...
+Program Size: Code=28958 RO-data=1474 RW-data=6416 ZI-data=1896  
 ".\Objects\LPC1768_new.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -43,11 +46,11 @@ Package Vendor: ARM
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.LPC1700_DFP.2.3.0.pack
-                Keil::Device:GPIO:1.1.0
+                Keil::Device:Startup:1.0.0
                 NXP LPC1700 Series Device Support, Drivers and Examples for MCB1700 and LPC1788-32
+   * Component: Startup Version: 1.0.0
    * Component: GPIO Version: 1.1.0
    * Component: GPDMA Version: 1.2.0
-   * Component: Startup Version: 1.0.0
    * Component: PIN Version: 1.0.0
    * Component: I2C Version: 2.4.0
    * Component: USART Version: 2.6.0
@@ -77,47 +80,47 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.0.2
 
    * Component: ARM::CMSIS:RTOS2:Keil RTX5:Source:5.2.0
-      Source file:   CMSIS\RTOS2\RTX\Template\Mutex.c
-      Source file:   CMSIS\RTOS2\RTX\Template\Thread.c
-      Source file:   CMSIS\RTOS2\RTX\Template\Events.c
+      Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
+      Source file:   CMSIS\RTOS2\RTX\Template\main.c
       Source file:   CMSIS\RTOS2\RTX\Config\RTX_Config.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Events.c
+      Source file:   CMSIS\RTOS2\RTX\Template\MemPool.c
       Source file:   CMSIS\RTOS2\RTX\Template\MsgQueue.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Semaphore.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Thread.c
       Source file:   CMSIS\RTOS2\RTX\Template\Timer.c
       Source file:   CMSIS\RTOS2\RTX\Template\svc_user.c
-      Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
-      Source file:   CMSIS\RTOS2\RTX\Template\Semaphore.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Mutex.c
       Include file:  CMSIS\RTOS2\RTX\Config\RTX_Config.h
-      Source file:   CMSIS\RTOS2\RTX\Template\main.c
-      Source file:   CMSIS\RTOS2\RTX\Template\MemPool.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_delay.c
-      Source file:   CMSIS\RTOS2\RTX\Source\ARM\irq_cm3.s
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_thread.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mutex.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_system.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_kernel.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evr.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evflags.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mempool.c
-      Source file:   CMSIS\RTOS2\RTX\Source\rtx_semaphore.c
       Source file:   CMSIS\RTOS2\RTX\Source\rtx_memory.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_thread.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_delay.c
       Source file:   CMSIS\RTOS2\RTX\Source\rtx_timer.c
+      Source file:   CMSIS\RTOS2\RTX\Source\ARM\irq_cm3.s
       Source file:   CMSIS\RTOS2\RTX\Source\rtx_msgqueue.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_semaphore.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evr.c
       Source file:   CMSIS\RTOS2\RTX\Source\rtx_lib.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_kernel.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mempool.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_system.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mutex.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evflags.c
       Source file:   CMSIS\RTOS2\Source\os_systick.c
+
+   * Component: Keil::Device:Startup:1.0.0
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Include file:  Device\Include\LPC17xx.h
+      Source file:   Device\Source\system_LPC17xx.c
+      Source file:   Device\Source\ARM\startup_LPC17xx.s
 
    * Component: Keil::Device:GPIO:1.1.0
       Include file:  RTE_Driver\GPIO_LPC17xx.h
       Source file:   RTE_Driver\GPIO_LPC17xx.c
 
    * Component: Keil::Device:GPDMA:1.2.0
-      Source file:   RTE_Driver\GPDMA_LPC17xx.c
       Include file:  RTE_Driver\GPDMA_LPC17xx.h
-
-   * Component: Keil::Device:Startup:1.0.0
-      Include file:  RTE_Driver\Config\RTE_Device.h
-      Source file:   Device\Source\ARM\startup_LPC17xx.s
-      Include file:  Device\Include\LPC17xx.h
-      Source file:   Device\Source\system_LPC17xx.c
+      Source file:   RTE_Driver\GPDMA_LPC17xx.c
 
    * Component: Keil::Device:PIN:1.0.0
       Include file:  RTE_Driver\PIN_LPC17xx.h
