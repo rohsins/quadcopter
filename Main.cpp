@@ -52,24 +52,33 @@ int timeDiff = 10;
 
 float errorPitch;
 float errorRoll;
+float errorYaw;
 float errorPitchD;
 float errorRollD;
+float errorYawD;
 float errorPitchI;
 float errorRollI;
+float errorYawI;
 float errorPitchPrev;
 float errorRollPrev;
+float errorYawPrev;
 
 int16_t pitchAngle;
 int16_t rollAngle;
+int16_t yawAngle;
 
 float pidPitch;
 float pidRoll;
+float pidYaw;
 const float pidPitchP = 1;
 const float pidPitchI = 0;
 const float pidPitchD = 0.1;
 const float pidRollP = 1;
 const float pidRollI = 0;
 const float pidRollD = 0.1;
+const float pidYawP = 1;
+const float pidYawI = 0;
+const float pidYawD = 0.1;
 
 int throttle;
 
@@ -242,26 +251,32 @@ void computeEngine(void * params) {
 		
 		errorPitch = pitchAngle - eulerAngleX;
 		errorRoll = rollAngle - eulerAngleY;
+		errorYaw = yawAngle - eulerAngleZ;
 		
 		errorPitchD = (errorPitch - errorPitchPrev)/timeDiff;
 		errorRollD = (errorRoll - errorRollPrev)/timeDiff;
+		errorYawD = (errorYaw - errorYawPrev)/timeDiff;
 		
 		errorPitchI += (errorPitch/10) * timeDiff;
 		errorRollI += (errorRoll/10) * timeDiff;
+		errorYawI += (errorYaw/10) * timeDiff;
 		
 		errorPitchPrev = errorPitch;
 		errorRollPrev = errorRoll;
+		errorYawPrev = errorYaw;
 		
 		pidPitch = (pidPitchP * errorPitch) + (pidPitchI * errorPitchI) + (pidPitchD * errorPitchD); 
 		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
+		pidRoll = (pidYawP * errorYaw) + (pidYawI * errorYawI) + (pidYawD * errorYawD);
 		
 		pidPitch = pidPitch*1;
 		pidRoll = pidRoll*1;
+		pidYaw = pidYaw*1;
 		
-		DutyCycle0 = 1000 + throttle + pidPitch;
-		DutyCycle1 = 1000 + throttle + pidRoll;
-		DutyCycle2 = 1000 + throttle - pidPitch;
-		DutyCycle3 = 1000 + throttle - pidRoll;
+		DutyCycle0 = 1500 + throttle + pidPitch - pidRoll + pidYaw;
+		DutyCycle1 = 1500 + throttle + pidRoll - pidPitch + pidYaw;
+		DutyCycle2 = 1500 + throttle - pidPitch + pidRoll - pidYaw;
+		DutyCycle3 = 1500 + throttle - pidRoll + pidPitch - pidYaw;
 		
 		osDelay(10);
 	}
@@ -275,7 +290,7 @@ void uart0Thread(void * params) {
 		osSemaphoreAcquire(semaphoreUartDataReadyId, osWaitForever);
 		if (readCheck == 0x0A) {
 			ringBuffer.ringBufferStringRead(readout);
-			itmPrint((char *)"readout:"); itmPrintln(readout);
+//			itmPrint((char *)"readout:"); itmPrintln(readout);
 			if (strncmp(readout, "throttle", 8) == 0) {
 				checkIntegerValue = (atoi(&readout[9]))*10;
 				checkIntegerValue /= 10;
