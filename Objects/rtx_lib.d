@@ -5,4 +5,4 @@
 .\objects\rtx_lib.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\RTX\Include\rtx_os.h
 .\objects\rtx_lib.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\rtx_lib.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\Include\cmsis_os2.h
-.\objects\rtx_lib.o: D:\Keil\LPC1768_QuadCopter\RTE\CMSIS\RTX_Config.h
+.\objects\rtx_lib.o: C:\Evoiklo\Keil\quadcopter\RTE\CMSIS\RTX_Config.h

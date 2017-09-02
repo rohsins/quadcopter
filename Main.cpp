@@ -25,6 +25,7 @@ extern "C" {
 const uint8_t WHOAMI = 0x01;
 const uint8_t OPRMODE[2] = {0x3D, 0x0C};
 const uint8_t EULERANGLE = 0x1A;
+const uint8_t CALIBSTAT = 0x35;
 
 extern ARM_DRIVER_USART Driver_USART0;
 extern ARM_DRIVER_USART Driver_USART1;
@@ -72,13 +73,13 @@ int16_t yawAngle = 180;
 float pidPitch;
 float pidRoll;
 float pidYaw;
-const float pidPitchP = 10;
+const float pidPitchP = 2;
 const float pidPitchI = 0;
 const float pidPitchD = 0.1;
-const float pidRollP = 10;
+const float pidRollP = 2;
 const float pidRollI = 0;
 const float pidRollD = 0.1;
-const float pidYawP = 10;
+const float pidYawP = 2;
 const float pidYawI = 0;
 const float pidYawD = 0.1;
 
@@ -179,6 +180,7 @@ void uart1UnInitialize(void) {
 
 void ledInitialize(void) {
 	GPIO_SetDir(2, 7, GPIO_DIR_OUTPUT);
+	GPIO_SetDir(2, 6, GPIO_DIR_OUTPUT);
 }                                                                                                                                      
 
 void configPWM(void) {
@@ -199,6 +201,22 @@ void configPWM(void) {
 	
 	LPC_PWM1->PCR = (1<<9) | (1<<10) | (1<<11) | (1<<12) | (1<<13); //PWM ON PIN 0, 1, 2, 3, 4
 }
+
+void calibrateMotor(void) {
+	DutyCycle0 = 2000;
+	DutyCycle1 = 2000;
+	DutyCycle2 = 2000;
+	DutyCycle3 = 2000;
+	DutyCycle4 = 2000;
+
+	osDelay(10000);
+
+	DutyCycle0 = 1000;
+	DutyCycle1 = 1000;
+	DutyCycle2 = 1000;
+	DutyCycle3 = 1000;
+	DutyCycle4 = 1000;	
+}
 	
 void heartBeatThread(void *arg) {
 	while (1) {
@@ -209,12 +227,24 @@ void heartBeatThread(void *arg) {
 	}
 }
 
-void configI2C(void) {
+void configBNO(void) {
 	uint8_t buf = 0;
+	uint8_t calibStat = 0;
 	Driver_I2C1.MasterTransmit (BNOADDRESS, &WHOAMI, 1, false);
 	osSemaphoreAcquire(semaphoreTransmitId, osWaitForever);
   Driver_I2C1.MasterReceive (BNOADDRESS, &buf, 1, false);
 	osSemaphoreAcquire(semaphoreReceiveId, osWaitForever);
+	
+	
+//	do {
+//		Driver_I2C1.MasterTransmit (BNOADDRESS, &CALIBSTAT, 1, false);
+//		osSemaphoreAcquire(semaphoreTransmitId, osWaitForever);
+//		Driver_I2C1.MasterReceive (BNOADDRESS, &calibStat, 1, false);
+//		osSemaphoreAcquire(semaphoreReceiveId, osWaitForever);
+//		osDelay(100);
+//	} while (calibStat != 0xFF);
+	
+	GPIO_PinWrite(2, 6, 1);
 	
 	Driver_I2C1.MasterTransmit (BNOADDRESS, OPRMODE, 2, false);
 	osSemaphoreAcquire(semaphoreTransmitId, osWaitForever);
@@ -223,8 +253,9 @@ void configI2C(void) {
 void imuUpdater(void * params) {
 	osDelay(1000);
 	
-	configI2C();
+	configBNO();
 	configPWM();
+	calibrateMotor();
 	
 	osDelay(100);
 	
@@ -246,10 +277,7 @@ void imuUpdater(void * params) {
 		eulerAngleY = eulerAngleYTemp >> 4;
 		eulerAngleZ = eulerAngleZTemp >> 4;
 		
-		eulerAngleX+=2;
-		
-		osSemaphoreRelease(semaphoreDataReadyId);
-		osSemaphoreRelease(semaphoreShowDataReadyId);	 
+		osSemaphoreRelease(semaphoreDataReadyId);	 
 		osDelay(10);
 	}
 }
@@ -281,15 +309,17 @@ void computeEngine(void * params) {
 		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
 		pidYaw = (pidYawP * errorYaw) + (pidYawI * errorYawI) + (pidYawD * errorYawD);
 		
-//		DutyCycle0 = motor1 = 1200 + throttle + pidPitch - pidRoll - pidYaw;
-//		DutyCycle1 = motor2 = 1150 + throttle + pidRoll + pidPitch + pidYaw;
-//		DutyCycle2 = motor3 = 1200 + throttle - pidPitch + pidRoll - pidYaw;
-//		DutyCycle3 = motor4 = 1150 + throttle - pidRoll - pidPitch + pidYaw;
+//		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll - pidYaw;
+//		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch + pidYaw;
+//		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll - pidYaw;
+//		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch + pidYaw;
 		
-//		DutyCycle0 = motor1 = 1200 + throttle + pidPitch - pidRoll;
-//		DutyCycle1 = motor2 = 1150 + throttle + pidRoll + pidPitch;
-//		DutyCycle2 = motor3 = 1200 + throttle - pidPitch + pidRoll;
-//		DutyCycle3 = motor4 = 1150 + throttle - pidRoll - pidPitch;
+		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll;
+		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch;
+		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll;
+		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch;
+		
+		osSemaphoreRelease(semaphoreShowDataReadyId);
 		
 		osDelay(10);
 	}
@@ -308,7 +338,6 @@ void uart0Thread(void * params) {
 				checkIntegerValue = (atoi(&readout[10]))*10;
 				checkIntegerValue /= 10;
 				DutyCycle0 = checkIntegerValue;
-				LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 				Driver_USART0.Send("throttle1: ", 10);
 				memset(tempArray, 0, 34);
 				sprintf(tempArray, "%d", checkIntegerValue);
@@ -319,7 +348,6 @@ void uart0Thread(void * params) {
 				checkIntegerValue = (atoi(&readout[10]))*10;
 				checkIntegerValue /= 10;
 				DutyCycle1 = checkIntegerValue;
-				LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 				Driver_USART0.Send("throttle2: ", 10);
 				memset(tempArray, 0, 34);
 				sprintf(tempArray, "%d", checkIntegerValue);
@@ -330,7 +358,6 @@ void uart0Thread(void * params) {
 				checkIntegerValue = (atoi(&readout[10]))*10;
 				checkIntegerValue /= 10;
 				DutyCycle2 = checkIntegerValue;
-				LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 				Driver_USART0.Send("throttle3: ", 10);
 				memset(tempArray, 0, 34);
 				sprintf(tempArray, "%d", checkIntegerValue);
@@ -341,7 +368,6 @@ void uart0Thread(void * params) {
 				checkIntegerValue = (atoi(&readout[10]))*10;
 				checkIntegerValue /= 10;
 				DutyCycle3 = checkIntegerValue;
-				LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
 				Driver_USART0.Send("throttle4: ", 10);
 				memset(tempArray, 0, 34);
 				sprintf(tempArray, "%d", checkIntegerValue);
@@ -352,7 +378,10 @@ void uart0Thread(void * params) {
 				checkIntegerValue = (atoi(&readout[9]))*10;
 				checkIntegerValue /= 10;
 				throttle = checkIntegerValue;
-				LPC_PWM1->LER = (1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5); //PWM ON PIN 0, 1, 2, 3, 4
+				DutyCycle0 = throttle;
+				DutyCycle1 = throttle;
+				DutyCycle2 = throttle;
+				DutyCycle3 = throttle;
 				Driver_USART0.Send("throttle: ", 10);
 				memset(tempArray, 0, 34);
 				sprintf(tempArray, "%d", throttle);
@@ -371,7 +400,7 @@ void showReading(void * params) {
 		osSemaphoreAcquire(semaphoreShowDataReadyId, osWaitForever);
 		memset(td, 0, 34);
 		sprintf(td, "\n\n\neulerAngleX: %d \neulerAngleY: %d \neulerAngleZ: %d\n\nmotor1: %d \nmotor2: %d \nmotor3: %d \nmotor4: %d\n\n", eulerAngleX, eulerAngleY, eulerAngleZ, motor1, motor2, motor3, motor4);
-		Driver_USART0.Send(td, 100);
+		Driver_USART0.Send(td, 120);
 		osDelay(1000);
 	}
 }
@@ -443,9 +472,9 @@ int main(void) {
 	
 	osThreadNew(heartBeatThread, NULL, &osThreadHeartBeatAttr);
 	osThreadNew(imuUpdater, NULL, &osThreadUpdaterAttr);
-//	osThreadNew(computeEngine, NULL, &osThreadComputeEngineAttr);
+	osThreadNew(computeEngine, NULL, &osThreadComputeEngineAttr);
 	osThreadNew(uart0Thread, NULL, &osThreadUartReadAttr);
-//	osThreadNew(showReading, NULL, &osThreadShowReadAttr);
+	osThreadNew(showReading, NULL, &osThreadShowReadAttr);
 	
 	osKernelStart();
 }

@@ -1,7 +1,7 @@
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\Source\os_systick.c
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\RTOS2\Include\os_tick.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\os_systick.o: D:\Keil\LPC1768_QuadCopter\RTE\RTE_Components.h
+.\objects\os_systick.o: C:\Evoiklo\Keil\quadcopter\RTE\RTE_Components.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.3.0\Device\Include\LPC17xx.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\core_cm3.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.1.0\CMSIS\Include\cmsis_version.h
