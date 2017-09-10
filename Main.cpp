@@ -209,7 +209,7 @@ void calibrateMotor(void) {
 	DutyCycle3 = 2000;
 	DutyCycle4 = 2000;
 
-	osDelay(10000);
+	osDelay(1000);
 
 	DutyCycle0 = 1000;
 	DutyCycle1 = 1000;
@@ -309,15 +309,15 @@ void computeEngine(void * params) {
 		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
 		pidYaw = (pidYawP * errorYaw) + (pidYawI * errorYawI) + (pidYawD * errorYawD);
 		
-//		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll - pidYaw;
-//		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch + pidYaw;
-//		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll - pidYaw;
-//		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch + pidYaw;
+		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll - pidYaw;
+		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch + pidYaw;
+		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll - pidYaw;
+		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch + pidYaw;
 		
-		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll;
-		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch;
-		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll;
-		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch;
+//		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll;
+//		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch;
+//		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll;
+//		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch;
 		
 		osSemaphoreRelease(semaphoreShowDataReadyId);
 		
