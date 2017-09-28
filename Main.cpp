@@ -51,7 +51,7 @@ int16_t eulerAngleX;
 int16_t eulerAngleY;
 int16_t eulerAngleZ;
 
-int timeDiff = 10;
+int timeDiff = 20;
 
 float errorPitch;
 float errorRoll;
@@ -73,15 +73,15 @@ int16_t yawAngle = 180;
 float pidPitch;
 float pidRoll;
 float pidYaw;
-const float pidPitchP = 2;
-const float pidPitchI = 0;
-const float pidPitchD = 0.1;
-const float pidRollP = 2;
-const float pidRollI = 0;
-const float pidRollD = 0.1;
-const float pidYawP = 2;
-const float pidYawI = 0;
-const float pidYawD = 0.1;
+float pidPitchP = 0.8;
+float pidPitchI = 0;
+float pidPitchD = 400;
+float pidRollP = 0.8;
+float pidRollI = 0;
+float pidRollD = 400;
+float pidYawP = 0.7;
+float pidYawI = 0;
+float pidYawD = 600;
 
 int motor1;
 int motor2;
@@ -273,12 +273,20 @@ void imuUpdater(void * params) {
 		eulerAngleYTemp = eulerAngle[3] << 8 | eulerAngle[2];
 		eulerAngleXTemp = eulerAngle[5] << 8 | eulerAngle[4];
 		
-		eulerAngleX = eulerAngleXTemp >> 4;
-		eulerAngleY = eulerAngleYTemp >> 4;
-		eulerAngleZ = eulerAngleZTemp >> 4;
+		eulerAngleX = (eulerAngleXTemp >> 4);
+		eulerAngleY = (eulerAngleYTemp >> 4);
+		eulerAngleZ = (eulerAngleZTemp >> 4);
+		
+		eulerAngleX += 1;
+		eulerAngleY += 1;
+		
+//		eulerAngleX = (abs(eulerAngleX) < 2) ? (eulerAngleX = 0) : (eulerAngleX = eulerAngleX);
+//		eulerAngleX = (abs(eulerAngleY) < 2) ? (eulerAngleY = 0) : (eulerAngleY = eulerAngleY);
+		
+//		eulerAngleX = (eulerAngleX > 0) ? (eulerAngleX - 180) : (eulerAngleX + 180);
 		
 		osSemaphoreRelease(semaphoreDataReadyId);	 
-		osDelay(10);
+		osDelay(20);
 	}
 }
 
@@ -309,19 +317,19 @@ void computeEngine(void * params) {
 		pidRoll = (pidRollP * errorRoll) + (pidRollI * errorRollI) + (pidRollD * errorRollD);
 		pidYaw = (pidYawP * errorYaw) + (pidYawI * errorYawI) + (pidYawD * errorYawD);
 		
-		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll - pidYaw;
-		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch + pidYaw;
-		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll - pidYaw;
-		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch + pidYaw;
+		DutyCycle0 = motor1 = 700 + throttle + pidPitch - pidRoll + pidYaw;
+		DutyCycle1 = motor2 = 665 + throttle + pidRoll + pidPitch - pidYaw;
+		DutyCycle2 = motor3 = 685 + throttle - pidPitch + pidRoll + pidYaw;
+		DutyCycle3 = motor4 = 705 + throttle - pidRoll - pidPitch - pidYaw;
 		
-//		DutyCycle0 = motor1 = 1000 + throttle + pidPitch - pidRoll;
-//		DutyCycle1 = motor2 = 1000 + throttle + pidRoll + pidPitch;
-//		DutyCycle2 = motor3 = 1000 + throttle - pidPitch + pidRoll;
-//		DutyCycle3 = motor4 = 1000 + throttle - pidRoll - pidPitch;
+//		DutyCycle0 = motor1 = 700 + throttle + pidPitch - pidRoll;
+//		DutyCycle1 = motor2 = 700 + throttle + pidRoll + pidPitch;
+//		DutyCycle2 = motor3 = 700 + throttle - pidPitch + pidRoll;
+//		DutyCycle3 = motor4 = 700 + throttle - pidRoll - pidPitch;
 		
 		osSemaphoreRelease(semaphoreShowDataReadyId);
 		
-		osDelay(10);
+		osDelay(20);
 	}
 }
 
@@ -388,6 +396,17 @@ void uart0Thread(void * params) {
 				Driver_USART0.Send(tempArray, 4);
 				Driver_USART0.Send("\n", 1);
 //				checkIntegerValue += atoi(&readout[10]);
+			}else if (strncmp(readout, "dpid:", 5) == 0) {
+				checkIntegerValue = (atoi(&readout[5]))*10;
+				checkIntegerValue /= 10;
+				pidPitchD = checkIntegerValue;
+				pidRollD = checkIntegerValue;
+				Driver_USART0.Send("dpid: ", 10);
+				memset(tempArray, 0, 34);
+				sprintf(tempArray, "%d", (int)pidPitchD);
+				Driver_USART0.Send(tempArray, 4);
+				Driver_USART0.Send("\n", 1);
+//				checkIntegerValue += atoi(&readout[10]);
 			}
 			memset(readout, 0, 34);
 		}
@@ -401,7 +420,7 @@ void showReading(void * params) {
 		memset(td, 0, 34);
 		sprintf(td, "\n\n\neulerAngleX: %d \neulerAngleY: %d \neulerAngleZ: %d\n\nmotor1: %d \nmotor2: %d \nmotor3: %d \nmotor4: %d\n\n", eulerAngleX, eulerAngleY, eulerAngleZ, motor1, motor2, motor3, motor4);
 		Driver_USART0.Send(td, 120);
-		osDelay(1000);
+		osDelay(700);
 	}
 }
 
